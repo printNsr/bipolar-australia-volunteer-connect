@@ -5,7 +5,6 @@ import BrandLogo from "@/components/BrandLogo";
 import SydneyMap3D from "@/components/explore/SydneyMap3D";
 import LandmarkInfoCard from "@/components/explore/LandmarkInfoCard";
 import CreationList from "@/components/explore/CreationList";
-import AddCreationForm from "@/components/explore/AddCreationForm";
 import { LANDMARKS, SAMPLE_CREATIONS } from "@/components/explore/landmarks";
 
 export default function Explore() {
@@ -14,7 +13,6 @@ export default function Explore() {
   const [selectedId, setSelectedId] = useState(
     LANDMARKS.some((landmark) => landmark.id === requestedLandmark) ? requestedLandmark : LANDMARKS[0].id
   );
-  const [adding, setAdding] = useState(false);
   const [cardOpen, setCardOpen] = useState(Boolean(requestedLandmark));
 
   const load = async () => {
@@ -53,7 +51,7 @@ export default function Explore() {
           <div className="relative">
             <SydneyMap3D
               selectedId={selectedId}
-              onSelect={(id) => { setSelectedId(id); setAdding(false); setCardOpen(true); }}
+              onSelect={(id) => { setSelectedId(id); setCardOpen(true); }}
               countFor={countFor}
             />
             {cardOpen && (
@@ -73,20 +71,13 @@ export default function Explore() {
               <p className="text-sm text-muted-foreground">
                 {selectedCreations.length} creation{selectedCreations.length === 1 ? "" : "s"}
               </p>
-              <button onClick={() => setAdding((a) => !a)} className="ba-btn-primary">
+              <Link to={`/studio/create?landmark=${selectedId}`} className="ba-btn-primary">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
-                Add
-              </button>
+                Start an artwork
+              </Link>
             </div>
 
             <div className="mt-6 space-y-6">
-              {adding && (
-                <AddCreationForm
-                  landmarkId={selectedId}
-                  onSaved={() => { setAdding(false); load(); }}
-                  onCancel={() => setAdding(false)}
-                />
-              )}
               <CreationList creations={selectedCreations} />
             </div>
           </aside>
