@@ -29,6 +29,7 @@ export default function Home() {
             <a href="#about" className="hover:text-teal-800">About</a>
             <a href="#get-support" className="hover:text-teal-800">Get Support</a>
             <a href="#research" className="hover:text-teal-800">Research</a>
+            <Link to="/community" className="hover:text-teal-800">Community</Link>
             <Link to="/login" className="rounded-md bg-teal-800 px-3 py-2 text-white hover:bg-teal-900 sm:px-4">Login</Link>
           </div>
         </div>
