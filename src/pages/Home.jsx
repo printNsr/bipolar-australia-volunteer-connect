@@ -13,23 +13,27 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Nav */}
-      <nav className="border-b border-gray-100 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-teal-600 rounded-full flex items-center justify-center">
-              <Heart className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <p className="text-xs text-gray-400 leading-none">Bipolar Australia</p>
-              <p className="text-sm font-bold text-gray-900 leading-none mt-0.5">Recovering Together</p>
-            </div>
+      <nav className="border-b border-gray-100 bg-white px-6 py-3">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-6">
+          <Link to="/" className="shrink-0">
+            <Image
+              src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/fb36a73b3_logo.jpg"
+              alt="Bipolar Australia — Recovering together"
+              className="h-14 w-40"
+              fittingType="fit"
+            />
+          </Link>
+          <div className="flex items-center gap-5 text-sm font-medium text-gray-700">
+            <a href="#about" className="hover:text-teal-700 transition-colors">About</a>
+            <a href="#get-support" className="hover:text-teal-700 transition-colors">Get Support</a>
+            <a href="#research" className="hover:text-teal-700 transition-colors">Research</a>
+            <Link to="/login" className="rounded-lg bg-teal-700 px-4 py-2 text-white hover:bg-teal-800 transition-colors">Login</Link>
           </div>
-          <Link to="/admin" className="text-sm text-gray-500 hover:text-teal-600 transition-colors">Admin →</Link>
         </div>
       </nav>
 
       {/* Hero */}
-      <div className="relative overflow-hidden text-white">
+      <div id="about" className="relative overflow-hidden text-white">
         <Image
           src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/77dc039d1_heropage.png"
           alt="Volunteers connecting in Sydney"
@@ -61,7 +65,7 @@ export default function Home() {
       </div>
 
       {/* Stats */}
-      <div className="bg-gray-900 text-white px-6 py-10">
+      <div id="research" className="bg-gray-900 text-white px-6 py-10">
         <div className="max-w-5xl mx-auto grid grid-cols-3 gap-8 text-center">
           {STATS.map((s, i) =>
           <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
@@ -98,7 +102,7 @@ export default function Home() {
       </div>
 
       {/* CTA */}
-      <div className="bg-teal-50 border-t border-teal-100">
+      <div id="get-support" className="bg-teal-50 border-t border-teal-100">
         <div className="max-w-3xl mx-auto px-6 py-14 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-3">Ready to make a difference?</h2>
           <p className="text-gray-600 mb-6">Even 1-2 hours a fortnight can change lives. Let's find the perfect role for you.</p>
