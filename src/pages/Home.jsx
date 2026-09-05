@@ -10,108 +10,87 @@ const STATS = [
 
 
 export default function Home() {
+  const steps = [
+    { icon: Users, title: "Apply", desc: "Fill in a short form about your skills, interests and availability.", color: "bg-blue-50 text-blue-600" },
+    { icon: Star, title: "AI Matching", desc: "Our AI reads your profile and suggests the best-fit role for you.", color: "bg-teal-50 text-teal-700" },
+    { icon: Clock, title: "Onboarding", desc: "Admin reviews and accepts you. A guided onboarding gets you started.", color: "bg-purple-50 text-purple-600" },
+    { icon: Heart, title: "Coordinate", desc: "Your tasks, responsibilities and next steps in one place.", color: "bg-red-50 text-red-600" },
+    { icon: Award, title: "Recognition", desc: "Log hours and receive a certificate recognising your contribution.", color: "bg-amber-50 text-amber-600" },
+    { icon: ArrowRight, title: "Retain", desc: "Stay engaged with updates, events and your personal impact story.", color: "bg-green-50 text-green-600" }
+  ];
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Nav */}
-      <nav className="border-b border-gray-100 bg-white px-6 py-3">
-        <div className="max-w-5xl mx-auto flex items-center justify-between gap-6">
-          <Link to="/" className="shrink-0">
-            <Image
-              src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/fb36a73b3_logo.jpg"
-              alt="Bipolar Australia — Recovering together"
-              className="h-14 w-40"
-              fittingType="fit"
-            />
+    <div className="impact-page min-h-screen bg-white font-impact-body text-slate-950">
+      <nav className="border-b border-slate-100 bg-white px-4 py-3 sm:px-6">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
+          <Link to="/" className="shrink-0" aria-label="Bipolar Australia home">
+            <Image src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/fb36a73b3_logo.jpg" alt="Bipolar Australia — Recovering together" className="h-11 w-28 sm:h-12 sm:w-32" fittingType="fit" />
           </Link>
-          <div className="flex items-center gap-5 text-sm font-medium text-gray-700">
-            <a href="#about" className="hover:text-teal-700 transition-colors">About</a>
-            <a href="#get-support" className="hover:text-teal-700 transition-colors">Get Support</a>
-            <a href="#research" className="hover:text-teal-700 transition-colors">Research</a>
-            <Link to="/login" className="rounded-lg bg-teal-700 px-4 py-2 text-white hover:bg-teal-800 transition-colors">Login</Link>
+          <div className="flex items-center gap-3 whitespace-nowrap text-xs font-semibold text-slate-700 sm:gap-6 sm:text-sm">
+            <a href="#about" className="hover:text-teal-800">About</a>
+            <a href="#get-support" className="hover:text-teal-800">Get Support</a>
+            <a href="#research" className="hover:text-teal-800">Research</a>
+            <Link to="/login" className="rounded-md bg-teal-800 px-3 py-2 text-white hover:bg-teal-900 sm:px-4">Login</Link>
           </div>
         </div>
       </nav>
 
-      {/* Hero */}
-      <div id="about" className="relative overflow-hidden text-white">
-        <Image
-          src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/77dc039d1_heropage.png"
-          alt="Volunteers connecting in Sydney"
-          className="absolute inset-0 h-full w-full"
-          fittingType="fill"
-          focalPointX={0.7}
-          focalPointY={0.5}
-        />
-        <div className="absolute inset-0 bg-teal-950/70" />
-        <div className="relative max-w-5xl mx-auto px-6 py-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-teal-100 text-sm font-medium tracking-wide uppercase mb-4">Volunteer with us</p>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 max-w-2xl">
-              Help us support people living with bipolar disorder
-            </h1>
-            <p className="text-teal-50 text-lg mb-8 max-w-xl">
-              Your skills and time can make a real difference. We'll match you to meaningful work that fits your life and helps you grow.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/apply" className="inline-flex items-center gap-2 bg-white text-teal-700 font-semibold px-6 py-3 rounded-xl hover:bg-teal-50 transition-all shadow-lg">
-                Apply Now <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link to="/admin" className="inline-flex items-center gap-2 border border-white/40 text-white px-6 py-3 rounded-xl hover:bg-white/10 transition-all">
-                Admin Dashboard
-              </Link>
+      <section id="about" className="bg-teal-950 px-4 py-10 min-[520px]:py-7 sm:px-6 lg:py-14">
+        <div className="relative mx-auto min-h-[390px] max-w-6xl overflow-hidden rounded-sm bg-teal-900 min-[520px]:min-h-[300px] lg:min-h-[390px]">
+          <Image src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/77dc039d1_heropage.png" alt="Volunteers connecting in Sydney" className="absolute inset-y-0 right-0 h-full w-full min-[520px]:w-3/4" fittingType="fill" focalPointX={0.72} focalPointY={0.5} />
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 mx-5 my-7 max-w-md rounded-xl bg-white p-6 shadow-xl min-[520px]:mx-10 min-[520px]:my-10 min-[520px]:max-w-[50%] min-[520px]:p-5 lg:max-w-md lg:p-9">
+            <p className="mb-3 text-xs font-bold uppercase tracking-wider text-teal-900">Volunteer with us</p>
+            <h1 className="font-impact-heading text-3xl font-extrabold leading-[0.98] tracking-tight text-slate-950 min-[520px]:text-2xl lg:text-5xl">Help us support people living with bipolar disorder</h1>
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-slate-700 min-[520px]:mt-3 min-[520px]:text-xs lg:mt-5 lg:text-sm">Your skills and time can make a real difference. We'll match you to meaningful work that fits your life and helps you grow.</p>
+            <div className="mt-6 flex flex-wrap items-center gap-5 min-[520px]:mt-4 min-[520px]:gap-3 lg:mt-6 lg:gap-5">
+              <Link to="/apply" className="inline-flex items-center gap-2 rounded-md bg-teal-800 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-teal-900 min-[520px]:px-3 min-[520px]:py-2 min-[520px]:text-xs lg:px-5 lg:py-3 lg:text-sm">Apply Now <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/admin" className="text-sm font-semibold text-slate-700 hover:text-teal-800 min-[520px]:text-xs lg:text-sm">Admin Dashboard</Link>
             </div>
           </motion.div>
         </div>
-      </div>
+      </section>
 
-      {/* Stats */}
-      <div id="research" className="bg-gray-900 text-white px-6 py-10">
-        <div className="max-w-5xl mx-auto grid grid-cols-3 gap-8 text-center">
-          {STATS.map((s, i) =>
-          <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-              <p className="text-3xl font-bold text-teal-400">{s.value}</p>
-              <p className="text-sm text-gray-400 mt-1">{s.label}</p>
+      <section id="research" className="bg-teal-950 px-4 pb-14 min-[520px]:pb-10 sm:px-6 lg:pb-20">
+        <div className="mx-auto grid max-w-5xl gap-4 min-[520px]:grid-cols-2 min-[520px]:grid-rows-2">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex min-h-48 flex-col items-center justify-center rounded-xl bg-white p-8 text-center min-[520px]:row-span-2">
+            <p className="font-impact-heading text-5xl font-extrabold tracking-tight text-teal-950 sm:text-6xl">{STATS[0].value}</p>
+            <p className="mt-2 text-sm text-slate-700">{STATS[0].label}</p>
+          </motion.div>
+          {STATS.slice(1).map((stat, index) => (
+            <motion.div key={stat.value} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: (index + 1) * 0.1 }} className="flex min-h-36 flex-col items-center justify-center rounded-xl bg-white p-7 text-center min-[520px]:min-h-24 lg:min-h-36">
+              <p className="font-impact-heading text-4xl font-extrabold tracking-tight text-teal-950 sm:text-5xl">{stat.value}</p>
+              <p className="mt-1 text-sm text-slate-700">{stat.label}</p>
             </motion.div>
-          )}
+          ))}
         </div>
-      </div>
+      </section>
 
-      {/* How it works */}
-      <div className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-2xl font-bold text-gray-900 text-center mb-3">How volunteering works</h2>
-        <p className="text-gray-500 text-center mb-10">A simple, AI-powered process from application to impact</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {[
-          { icon: Users, title: "Apply", desc: "Fill in a short form about your skills, interests and availability.", color: "bg-blue-50 text-blue-600" },
-          { icon: Star, title: "AI Matching", desc: "Our AI reads your profile and suggests the best-fit role for you.", color: "bg-teal-50 text-teal-600" },
-          { icon: Clock, title: "Onboarding", desc: "Admin reviews and accepts you. A guided onboarding gets you started.", color: "bg-purple-50 text-purple-600" },
-          { icon: Heart, title: "Coordinate", desc: "Your tasks, responsibilities and next steps in one place.", color: "bg-red-50 text-red-600" },
-          { icon: Award, title: "Recognition", desc: "Log hours and receive a certificate recognising your contribution.", color: "bg-yellow-50 text-yellow-600" },
-          { icon: ArrowRight, title: "Retain", desc: "Stay engaged with updates, events and your personal impact story.", color: "bg-green-50 text-green-600" }].
-          map((item, i) =>
-          <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-          className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${item.color}`}>
-                <item.icon className="w-5 h-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
-              <p className="text-sm text-gray-500">{item.desc}</p>
-            </motion.div>
-          )}
+      <section className="bg-white px-4 py-16 min-[520px]:py-10 sm:px-6 lg:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <h2 className="font-impact-heading text-3xl font-extrabold tracking-tight min-[520px]:text-2xl lg:text-3xl">How volunteering works</h2>
+            <p className="mt-2 text-sm text-slate-600">A simple, AI-powered process from application to impact</p>
+          </div>
+          <div className="mt-10 grid gap-4 min-[520px]:grid-cols-3">
+            {steps.map((item, index) => (
+              <motion.div key={item.title} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.08 }} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm min-[520px]:p-4 lg:p-5">
+                <div className={`mb-4 flex h-9 w-9 items-center justify-center rounded-lg ${item.color}`}><item.icon className="h-4 w-4" /></div>
+                <h3 className="font-impact-heading text-base font-extrabold min-[520px]:text-xs lg:text-base">{item.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-slate-600 min-[520px]:text-[10px] lg:text-sm">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* CTA */}
-      <div id="get-support" className="bg-teal-50 border-t border-teal-100">
-        <div className="max-w-3xl mx-auto px-6 py-14 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">Ready to make a difference?</h2>
-          <p className="text-gray-600 mb-6">Even 1-2 hours a fortnight can change lives. Let's find the perfect role for you.</p>
-          <Link to="/apply" className="inline-flex items-center gap-2 bg-teal-600 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-teal-700 transition-all shadow">
-            Start Your Application <ArrowRight className="w-4 h-4" />
-          </Link>
-          <p className="text-xs text-gray-400 mt-6">恢复是可能的 • recovery is possible • الانتعاش هو ممكن • il recupero è possibile</p>
+      <section id="get-support" className="border-t border-amber-200 bg-amber-50 px-4 py-14 min-[520px]:py-10 sm:px-6 lg:py-16">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-impact-heading text-3xl font-extrabold tracking-tight min-[520px]:text-xl lg:text-3xl">Ready to make a difference?</h2>
+          <p className="mt-3 text-sm text-slate-700">Even 1-2 hours a fortnight can change lives. Let's find the perfect role for you.</p>
+          <Link to="/apply" className="mt-7 inline-flex items-center gap-2 rounded-md bg-teal-800 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-teal-900">Start Your Application <ArrowRight className="h-4 w-4" /></Link>
+          <p className="mt-7 text-xs text-slate-500">恢复是可能的 • recovery is possible • الانتعاش هو ممكن • il recupero è possibile</p>
         </div>
-      </div>
-    </div>);
-
+      </section>
+    </div>
+  );
 }
