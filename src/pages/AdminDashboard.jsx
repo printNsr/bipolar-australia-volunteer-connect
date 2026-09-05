@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
-import { Users, Star, TrendingUp, Search } from "lucide-react";
+import { Users, Star, TrendingUp, Search, ClipboardList } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import RolesTab from "@/components/admin/RolesTab";
 import ImpactTab from "@/components/admin/ImpactTab";
 import ApplicationDetail from "@/components/admin/ApplicationDetail";
+import TasksTab from "@/components/admin/TasksTab";
 
 const STATUS_COLORS = {
   applied: "bg-yellow-100 text-yellow-800",
@@ -20,6 +21,7 @@ export default function AdminDashboard() {
   const [volunteers, setVolunteers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [onboardings, setOnboardings] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState(null);
   const [search, setSearch] = useState("");
@@ -30,12 +32,14 @@ export default function AdminDashboard() {
 
   const loadData = async () => {
     setLoading(true);
-    const [apps, vols, rls, onb] = await Promise.all([
+    const [apps, vols, rls, onb, tsk] = await Promise.all([
       base44.entities.Application.list("-created_date"),
       base44.entities.Volunteer.list(),
       base44.entities.JobRole.list(),
-      base44.entities.VolunteerOnboarding.list()
+      base44.entities.VolunteerOnboarding.list(),
+      base44.entities.VolunteerTask.list("-created_date")
     ]);
+    setTasks(tsk);
     setApplications(apps);
     setVolunteers(vols);
     setRoles(rls);
@@ -72,7 +76,7 @@ export default function AdminDashboard() {
     total: applications.length,
     pending: applications.filter(a => a.status === "applied").length,
     active: volunteers.filter(v => v.status === "active").length,
-    hours: onboardings.reduce((s, o) => s + (o.hours_worked || 0), 0)
+    hours: tasks.reduce((s, t) => s + (t.hours_logged || 0), 0)
   };
 
   const filtered = applications.filter(a => {
@@ -93,6 +97,7 @@ export default function AdminDashboard() {
           {[
             { id: "applications", label: "Applications", icon: Users, count: stats.pending },
             { id: "roles", label: "Volunteer Roles", icon: Star },
+            { id: "tasks", label: "Task Allocation", icon: ClipboardList },
             { id: "impact", label: "Impact Overview", icon: TrendingUp },
           ].map(item => (
             <button key={item.id} onClick={() => setTab(item.id)}
@@ -104,7 +109,8 @@ export default function AdminDashboard() {
           ))}
         </nav>
         <div className="p-4 border-t border-gray-100">
-          <a href="/" className="text-xs text-teal-600 hover:underline">← Public Apply Page</a>
+          <a href="/" className="block text-xs text-teal-600 hover:underline">← Public Apply Page</a>
+          <a href="/portal" className="block text-xs text-teal-600 hover:underline mt-1">Volunteer Portal →</a>
         </div>
       </div>
 
@@ -171,6 +177,7 @@ export default function AdminDashboard() {
         )}
 
         {tab === "roles" && <RolesTab roles={roles} applications={applications} onRefresh={loadData} />}
+        {tab === "tasks" && <TasksTab tasks={tasks} volunteers={volunteers} onboardings={onboardings} onRefresh={loadData} />}
         {tab === "impact" && <ImpactTab stats={stats} applications={applications} onboardings={onboardings} />}
       </div>
     </div>
