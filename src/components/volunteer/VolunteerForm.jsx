@@ -50,7 +50,7 @@ export default function VolunteerForm({ onSuccess }) {
       const volunteer = await base44.entities.Volunteer.create(payload);
 
       let best = null;
-      const { data } = await base44.functions.semanticMatchRoles({
+      const { data } = await base44.functions.invoke("semanticMatchRoles", {
         skills: payload.skills,
         availability: payload.availability,
         hours_required: payload.total_weekly_hours
