@@ -24,9 +24,9 @@ export default function Hero() {
         </div>
 
         <Image
-          src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/6a8d41f74_generated_image.png"
+          src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/e878922e4_generated_image.png"
           alt="Volunteers and community members talking together in a community hall"
-          className="h-[320px] w-full lg:h-[520px]"
+          className="block h-[320px] w-full overflow-hidden rounded-2xl lg:h-[520px]"
           fittingType="fill"
           focalPointY={0.45}
         />
