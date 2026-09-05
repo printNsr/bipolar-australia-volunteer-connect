@@ -1,0 +1,38 @@
+{
+  "name": "Application",
+  "type": "object",
+  "properties": {
+    "volunteer_id": {
+      "type": "string",
+      "description": "Volunteer record id"
+    },
+    "role_id": {
+      "type": "string",
+      "description": "JobRole record id"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "applied",
+        "reviewing",
+        "accepted",
+        "rejected",
+        "withdrawn"
+      ],
+      "default": "applied"
+    },
+    "preferred_area": {
+      "type": "string"
+    },
+    "applied_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "hours_required": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "volunteer_id"
+  ]
+}
