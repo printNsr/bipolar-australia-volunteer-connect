@@ -22,6 +22,35 @@
         "flexible"
       ]
     },
+    "available_days": {
+      "type": "array",
+      "description": "Days of the week the volunteer is available",
+      "items": {
+        "type": "string",
+        "enum": [
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+          "sunday"
+        ]
+      }
+    },
+    "available_from": {
+      "type": "string",
+      "description": "Preferred start time (HH:MM)"
+    },
+    "available_to": {
+      "type": "string",
+      "description": "Preferred end time (HH:MM)"
+    },
+    "registered_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the volunteer registered"
+    },
     "skills": {
       "type": "array",
       "items": {

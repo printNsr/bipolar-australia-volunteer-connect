@@ -12,9 +12,20 @@ const SKILLS = [
 
 const AVAILABILITY = ["weekdays", "weekends", "evenings", "flexible"];
 
+const DAYS = [
+  { key: "monday", label: "Mon" },
+  { key: "tuesday", label: "Tues" },
+  { key: "wednesday", label: "Weds" },
+  { key: "thursday", label: "Thurs" },
+  { key: "friday", label: "Fri" },
+  { key: "saturday", label: "Sat" },
+  { key: "sunday", label: "Sun" }
+];
+
 export default function VolunteerForm({ onSuccess }) {
   const [form, setForm] = useState({
-    name: "", email_id: "", phone: "", availability: "flexible", skills: []
+    name: "", email_id: "", phone: "", availability: "flexible",
+    available_days: [], available_from: "09:00", available_to: "17:00", skills: []
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -22,13 +33,19 @@ export default function VolunteerForm({ onSuccess }) {
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const toggleSkill = (s) =>
     set("skills", form.skills.includes(s) ? form.skills.filter(x => x !== s) : [...form.skills, s]);
+  const toggleDay = (d) =>
+    set("available_days", form.available_days.includes(d) ? form.available_days.filter(x => x !== d) : [...form.available_days, d]);
 
   const submit = async (e) => {
     e.preventDefault();
     setError("");
     setSaving(true);
     try {
-      await base44.entities.Volunteer.create({ ...form, status: "new" });
+      await base44.entities.Volunteer.create({
+        ...form,
+        status: "new",
+        registered_at: new Date().toISOString()
+      });
       onSuccess();
     } catch {
       setError("Something went wrong saving your details. Please try again.");
@@ -71,6 +88,36 @@ export default function VolunteerForm({ onSuccess }) {
               {a}
             </button>
           ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-3">Which days suit you?</label>
+        <div className="flex flex-wrap gap-2">
+          {DAYS.map(d => (
+            <button
+              key={d.key}
+              type="button"
+              onClick={() => toggleDay(d.key)}
+              className={`px-4 py-2 rounded-full text-sm border transition-colors ${
+                form.available_days.includes(d.key)
+                  ? "bg-teal-600 text-white border-teal-600"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-teal-400"
+              }`}
+            >
+              {d.label}
+            </button>
+          ))}
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-2">Preferred from</label>
+            <Input type="time" value={form.available_from} onChange={e => set("available_from", e.target.value)} className="h-11" />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-2">Preferred until</label>
+            <Input type="time" value={form.available_to} onChange={e => set("available_to", e.target.value)} className="h-11" />
+          </div>
         </div>
       </div>
 
