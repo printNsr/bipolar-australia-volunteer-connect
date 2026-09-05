@@ -59,7 +59,7 @@ export default function Home() {
           {STATS.slice(1).map((stat, index) => (
             <motion.div key={stat.value} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: (index + 1) * 0.1 }} className="flex min-h-36 flex-col items-center justify-center rounded-xl bg-white p-7 text-center min-[520px]:min-h-24 lg:min-h-36">
               <p className="font-impact-heading text-4xl font-extrabold tracking-tight text-teal-950 sm:text-5xl">{stat.value}</p>
-              <p className="mt-1 text-sm text-slate-700">{stat.label}</p>
+              <p className={index === 1 ? "mt-3 text-sm text-slate-700" : "mt-1 text-sm text-slate-700"}>{stat.label}</p>
             </motion.div>
           ))}
         </div>
