@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
-import { Users, Star, TrendingUp, Search, ClipboardList } from "lucide-react";
+import { Users, Star, TrendingUp, Search, ClipboardList, Sparkles, GitBranch } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import RolesTab from "@/components/admin/RolesTab";
 import ImpactTab from "@/components/admin/ImpactTab";
 import ApplicationDetail from "@/components/admin/ApplicationDetail";
 import TasksTab from "@/components/admin/TasksTab";
+import MatchingTab from "@/components/admin/MatchingTab";
+import AppFlowTab from "@/components/admin/AppFlowTab";
 
 const STATUS_COLORS = {
   applied: "bg-yellow-100 text-yellow-800",
@@ -97,8 +99,10 @@ export default function AdminDashboard() {
           {[
             { id: "applications", label: "Applications", icon: Users, count: stats.pending },
             { id: "roles", label: "Volunteer Roles", icon: Star },
+            { id: "matching", label: "Auto-Matching", icon: Sparkles },
             { id: "tasks", label: "Task Allocation", icon: ClipboardList },
             { id: "impact", label: "Impact Overview", icon: TrendingUp },
+            { id: "flow", label: "App Flow", icon: GitBranch },
           ].map(item => (
             <button key={item.id} onClick={() => setTab(item.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === item.id ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:bg-gray-50"}`}>
@@ -178,6 +182,8 @@ export default function AdminDashboard() {
 
         {tab === "roles" && <RolesTab roles={roles} applications={applications} onRefresh={loadData} />}
         {tab === "tasks" && <TasksTab tasks={tasks} volunteers={volunteers} onboardings={onboardings} onRefresh={loadData} />}
+        {tab === "matching" && <MatchingTab volunteers={volunteers} roles={roles} applications={applications} onRefresh={loadData} />}
+        {tab === "flow" && <AppFlowTab />}
         {tab === "impact" && <ImpactTab stats={stats} applications={applications} onboardings={onboardings} />}
       </div>
     </div>
