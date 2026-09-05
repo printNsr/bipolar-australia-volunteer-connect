@@ -13,6 +13,12 @@ function drawStroke(ctx, s) {
   ctx.beginPath();
   s.points.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
   ctx.stroke();
+  if (s.points.length === 1) {
+    ctx.fillStyle = s.color;
+    ctx.beginPath();
+    ctx.arc(s.points[0][0], s.points[0][1], s.size / 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
   ctx.restore();
 }
 
@@ -38,6 +44,8 @@ export default function CanvasBoard({ canvas, tool, color, size, sticker, onStro
   const ref = useRef(null);
   const active = useRef(null);
   const images = useRef({});
+  const redrawRef = useRef(null);
+  const pointer = useRef(null);
 
   const redraw = useCallback(() => {
     const c = ref.current;
@@ -69,7 +77,7 @@ export default function CanvasBoard({ canvas, tool, color, size, sticker, onStro
         if (!img) {
           img = new Image();
           img.crossOrigin = "anonymous";
-          img.onload = () => redraw();
+          img.onload = () => redrawRef.current?.();
           img.src = it.url;
           images.current[it.url] = img;
         }
@@ -82,7 +90,7 @@ export default function CanvasBoard({ canvas, tool, color, size, sticker, onStro
     if (active.current) drawStroke(ctx, active.current);
   }, [canvas]);
 
-  useEffect(() => { redraw(); }, [redraw]);
+  useEffect(() => { redrawRef.current = redraw; redraw(); }, [redraw]);
 
   const pos = (e) => {
     const r = ref.current.getBoundingClientRect();
@@ -90,10 +98,14 @@ export default function CanvasBoard({ canvas, tool, color, size, sticker, onStro
   };
 
   const down = (e) => {
-    if (!canEdit) return;
+    if (!canEdit || active.current || !e.isPrimary || e.button !== 0) return;
+    e.preventDefault();
     const [x, y] = pos(e);
     if (tool === "brush" || tool === "eraser") {
+      pointer.current = e.pointerId;
+      e.currentTarget.setPointerCapture(e.pointerId);
       active.current = { points: [[x, y]], color: tool === "eraser" ? "#FFFFFF" : color, size: tool === "eraser" ? size * 2 : size };
+      redraw();
       return;
     }
     if (tool === "text") {
@@ -106,15 +118,17 @@ export default function CanvasBoard({ canvas, tool, color, size, sticker, onStro
   };
 
   const move = (e) => {
-    if (!active.current) return;
+    if (!active.current || pointer.current !== e.pointerId) return;
     active.current.points.push(pos(e));
     redraw();
   };
 
-  const up = () => {
-    if (!active.current) return;
+  const up = (e) => {
+    if (!active.current || pointer.current !== e.pointerId) return;
     const stroke = active.current;
     active.current = null;
+    pointer.current = null;
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
     onStroke(stroke);
   };
 
@@ -126,7 +140,8 @@ export default function CanvasBoard({ canvas, tool, color, size, sticker, onStro
       onPointerDown={down}
       onPointerMove={move}
       onPointerUp={up}
-      onPointerLeave={up}
+      onPointerCancel={up}
+      onLostPointerCapture={up}
       className="w-full touch-none rounded-lg border border-border bg-white shadow-sm"
       style={{ cursor: canEdit ? "crosshair" : "not-allowed" }}
     />

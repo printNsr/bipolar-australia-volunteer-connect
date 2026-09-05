@@ -10,6 +10,8 @@ import ContributionTimeline from "@/components/studio/ContributionTimeline";
 import ProgressBar from "@/components/studio/ProgressBar";
 import PublishToExplore from "@/components/studio/PublishToExplore";
 import useMe from "@/hooks/useMe";
+import useCanvasPersistence from "@/components/studio/useCanvasPersistence";
+import { mergeCanvas, waitForCanvasSaves } from "@/components/studio/canvasPersistence";
 import { STAGES, STAGE_LABELS, matchScore, sharedSkills } from "@/components/studio/creativeSkills";
 
 export default function ProjectRoom() {
@@ -24,9 +26,12 @@ export default function ProjectRoom() {
   const [sticker, setSticker] = useState("✨");
   const [uploading, setUploading] = useState(false);
   const [busy, setBusy] = useState(false);
+  const { saveEntry, saving, saveError, retrySave } = useCanvasPersistence(id, setProject);
 
   const load = async () => {
-    setProject(await base44.entities.ArtProject.get(id));
+    await waitForCanvasSaves(id);
+    const loaded = await base44.entities.ArtProject.get(id);
+    setProject((current) => ({ ...loaded, canvas: mergeCanvas(loaded.canvas, current?.id === id ? current.canvas : {}) }));
     setComments(await base44.entities.ArtComment.filter({ project_id: id }, "-created_date", 100));
     setContributions(await base44.entities.Contribution.filter({ project_id: id }, "-created_date", 100));
   };
@@ -35,7 +40,11 @@ export default function ProjectRoom() {
 
   useEffect(() => {
     const unsub = base44.entities.ArtProject.subscribe((e) => {
-      if (e.data?.id === id && e.type === "update") setProject(e.data);
+      if ((e.id || e.data?.id) === id && e.type === "update" && e.data) {
+        setProject((current) => current?.id === id ? {
+          ...current, ...e.data, canvas: mergeCanvas(e.data.canvas, current.canvas)
+        } : current);
+      }
     });
     return unsub;
   }, [id]);
@@ -61,27 +70,15 @@ export default function ProjectRoom() {
       hours: 0.25
     });
 
-  const saveCanvas = async (canvas) => {
-    setProject({ ...project, canvas });
-    await base44.entities.ArtProject.update(project.id, { canvas });
-  };
-
   const addStroke = async (stroke) => {
-    const canvas = {
-      strokes: [...(project.canvas?.strokes || []), { ...stroke, author: myName }],
-      items: project.canvas?.items || []
-    };
-    await saveCanvas(canvas);
-    if (canvas.strokes.length % 6 === 1) await logContribution("painted on the shared canvas", mySkills[0] || "Drawing");
+    const count = (project.canvas?.strokes?.length || 0) + 1;
+    const saved = await saveEntry("strokes", { ...stroke, author: myName });
+    if (saved && count % 6 === 1) await logContribution("painted on the shared canvas", mySkills[0] || "Drawing");
   };
 
   const addItem = async (item) => {
-    const canvas = {
-      strokes: project.canvas?.strokes || [],
-      items: [...(project.canvas?.items || []), { ...item, author: myName }]
-    };
-    await saveCanvas(canvas);
-    await logContribution(`added ${item.type === "cube" ? "a 3D object" : `a ${item.type}`} to the artwork`, mySkills[0] || "Graphic Design");
+    const saved = await saveEntry("items", { ...item, author: myName });
+    if (saved) await logContribution(`added ${item.type === "cube" ? "a 3D object" : `a ${item.type}`} to the artwork`, mySkills[0] || "Graphic Design");
   };
 
   const uploadImage = async (file) => {
@@ -110,7 +107,9 @@ export default function ProjectRoom() {
   };
 
   const publish = async (landmarkId) => {
+    if (saveError) return;
     setBusy(true);
+    await waitForCanvasSaves(id);
     const el = document.querySelector("canvas");
     let preview_url = project.preview_url;
     if (el) {
@@ -183,7 +182,7 @@ export default function ProjectRoom() {
             {canEdit && project.stage !== "published" && (
               <div className="space-y-4">
                 <button onClick={advance} className="ba-btn-secondary">Move to next stage</button>
-                <PublishToExplore busy={busy} onPublish={publish} />
+                <PublishToExplore busy={busy || saving > 0 || !!saveError} onPublish={publish} />
               </div>
             )}
             {project.stage === "published" && project.explore_landmark && (
@@ -203,6 +202,14 @@ export default function ProjectRoom() {
               sticker={sticker} setSticker={setSticker}
               onUploadImage={uploadImage} uploading={uploading}
             />
+          )}
+          {canEdit && (
+            <div className="mt-3 text-sm" role="status" aria-live="polite">
+              <span className={saveError ? "text-destructive" : "text-muted-foreground"}>
+                {saveError || (saving ? "Saving drawing…" : "Drawing saved")}
+              </span>
+              {saveError && <button onClick={retrySave} disabled={saving > 0} className="ba-btn-secondary ml-3">Retry save</button>}
+            </div>
           )}
           <div className="mt-6">
             <CanvasBoard

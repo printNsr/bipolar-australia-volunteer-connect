@@ -10,7 +10,7 @@ const TOOLS = [
   { id: "cube", label: "3D object" }
 ];
 
-const COLORS = ["#1A1A1A", "#0A7A3A", "#3CB371", "#FFD84D", "#D6635C", "#4A6FE3", "#A855F7", "#FFFFFF"];
+const COLORS = ["#1A1A1A", "#0A7A3A", "#3CB371", "#FFD84D", "#FF0000", "#D6635C", "#4A6FE3", "#A855F7", "#FFFFFF"];
 const STICKERS = ["✨", "🌱", "🌈", "💛", "🕊️", "🌙", "🔥", "🫶"];
 
 export default function CanvasToolbar({ tool, setTool, color, setColor, size, setSize, sticker, setSticker, onUploadImage, uploading }) {
@@ -51,7 +51,9 @@ export default function CanvasToolbar({ tool, setTool, color, setColor, size, se
             <button
               key={c}
               onClick={() => setColor(c)}
-              aria-label={c}
+              aria-label={c === "#FF0000" ? "Red" : c}
+              title={c === "#FF0000" ? "Red" : c}
+              aria-pressed={color === c}
               className={`h-7 w-7 rounded-full border transition-transform ${color === c ? "scale-110 border-foreground" : "border-border"}`}
               style={{ background: c }}
             />
