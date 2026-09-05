@@ -26,7 +26,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
           <BrandLogo />
           <div className="flex items-center gap-3 whitespace-nowrap text-xs font-semibold text-slate-700 sm:gap-6 sm:text-sm">
-            <a href="#about" className="hover:text-teal-800">About</a>
+            <a href="https://www.bipolaraustralia.org.au/bipolar-information" target="_blank" rel="noreferrer" className="hover:text-teal-800">About</a>
             <a href="#get-support" className="hover:text-teal-800">Get Support</a>
             <a href="#research" className="hover:text-teal-800">Research</a>
             <Link to="/community" className="hover:text-teal-800">Community</Link>
