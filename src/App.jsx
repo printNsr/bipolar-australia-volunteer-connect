@@ -17,6 +17,11 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Community from './pages/Community';
+import Studio from './pages/Studio';
+import CreateProject from './pages/CreateProject';
+import ProjectRoom from './pages/ProjectRoom';
+import MyImpact from './pages/MyImpact';
+import StudioProfile from './pages/StudioProfile';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -52,6 +57,11 @@ const AuthenticatedApp = () => {
       <Route path="/explore" element={<Explore />} />
       <Route path="/portal" element={<VolunteerPortal />} />
       <Route path="/community" element={<Community />} />
+      <Route path="/studio" element={<Studio />} />
+      <Route path="/studio/create" element={<CreateProject />} />
+      <Route path="/studio/impact" element={<MyImpact />} />
+      <Route path="/studio/profile" element={<StudioProfile />} />
+      <Route path="/studio/:id" element={<ProjectRoom />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
