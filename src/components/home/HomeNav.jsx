@@ -9,6 +9,7 @@ export default function HomeNav() {
         <div className="flex items-center gap-6 whitespace-nowrap text-sm text-foreground">
           <a href="https://www.bipolaraustralia.org.au/bipolar-information" target="_blank" rel="noreferrer" className="hidden hover:text-primary sm:inline">About</a>
           <Link to="/community" className="hidden hover:text-primary sm:inline">Community</Link>
+          <Link to="/studio" className="hidden hover:text-primary sm:inline">Art Studio</Link>
           <Link to="/login" className="hover:text-primary">Login</Link>
           <Link to="/volunteer" className="ba-btn-primary">Volunteer Now</Link>
         </div>

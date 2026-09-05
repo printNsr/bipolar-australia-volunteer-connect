@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, CheckCircle, Loader2, ChevronRight, ChevronLeft } from "lucide-react";
-import BrandLogo from "@/components/BrandLogo";
+import { Loader2 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 import MatchResults from "@/components/apply/MatchResults";
 
 const SKILLS_OPTIONS = [
@@ -15,7 +14,10 @@ const SKILLS_OPTIONS = [
   "Fundraising", "Research", "Community Outreach"
 ];
 
-const steps = ["About You", "Your Skills", "Availability"];
+const steps = ["About you", "Your skills", "Your availability"];
+
+const chipClass = (active) =>
+  `brand-pill border transition-colors ${active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-muted-foreground hover:border-muted-foreground"}`;
 
 export default function Apply() {
   const [step, setStep] = useState(0);
@@ -70,108 +72,116 @@ export default function Apply() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-green-50 flex items-center justify-center p-6">
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-lg w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-          <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-8 h-8 text-teal-600" />
-          </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Application Received!</h2>
-          <p className="text-gray-500 mb-6">Thank you, {form.name}. Our team will be in touch soon.</p>
+      <div className="min-h-screen bg-background text-foreground">
+        <PageHeader label="Volunteer application" width="max-w-3xl" />
+        <main className="mx-auto max-w-3xl px-6 py-20">
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}>
+            <p className="text-xs uppercase tracking-[0.18em] text-secondary">Thank you, {form.name.split(" ")[0]}</p>
+            <h1 className="mt-4 text-4xl sm:text-5xl">Your application is in.</h1>
+            <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+              We've read what you're good at and when you're free. Here's where we think your time will matter most —
+              our volunteer team will be in touch soon.
+            </p>
 
-          <MatchResults matches={matches} />
+            <div className="mt-12 border-t border-border pt-10">
+              <MatchResults matches={matches} />
+            </div>
 
-          <Button asChild className="w-full bg-teal-600 hover:bg-teal-700 mb-4">
-            <a href="/portal">Go to my volunteer portal</a>
-          </Button>
-          <p className="text-xs text-gray-400">Recovery is possible • Hope is real • You are not alone</p>
-        </motion.div>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <a href="/portal" className="ba-btn-primary">
+                Go to my volunteer portal
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+              </a>
+              <a href="/" className="ba-btn-secondary">Back to home</a>
+            </div>
+
+            <p className="mt-16 border-t border-border pt-8 text-sm text-muted-foreground">
+              Recovery is possible · Hope is real · You are not alone
+            </p>
+          </motion.div>
+        </main>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-green-50">
-      <div className="bg-white border-b border-gray-100 px-6 py-4">
-        <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
-          <BrandLogo />
-          <p className="text-sm font-semibold text-gray-800">Volunteer Application</p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-background text-foreground">
+      <PageHeader label="Volunteer application" width="max-w-3xl" />
 
-      <div className="max-w-2xl mx-auto px-6 py-10">
-        <div className="flex items-center gap-2 mb-8">
+      <main className="mx-auto max-w-3xl px-6 py-14">
+        <p className="text-xs uppercase tracking-[0.18em] text-secondary">Step {step + 1} of {steps.length}</p>
+        <h1 className="mt-3 text-4xl">{steps[step]}</h1>
+
+        <div className="mt-8 flex gap-2">
           {steps.map((s, i) => (
-            <div key={s} className="flex items-center gap-2 flex-1">
-              <div className={`flex-1 h-1.5 rounded-full transition-all duration-300 ${i <= step ? "bg-teal-500" : "bg-gray-200"}`} />
-            </div>
+            <div key={s} className={`h-px flex-1 transition-colors duration-300 ${i <= step ? "bg-primary" : "bg-border"}`} />
           ))}
         </div>
-        <p className="text-xs text-teal-600 font-semibold uppercase tracking-wide mb-1">Step {step + 1} of {steps.length}</p>
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">{steps[step]}</h1>
 
         <AnimatePresence mode="wait">
-          <motion.div key={step} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.25 }}>
+          <motion.div key={step} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }} className="mt-12">
 
             {step === 0 && (
-              <div className="space-y-4">
+              <div className="space-y-7">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Full Name *</label>
-                  <Input value={form.name} onChange={e => set("name", e.target.value)} placeholder="Your full name" />
+                  <label className="mb-2 block text-sm font-medium text-foreground">Full name *</label>
+                  <Input value={form.name} onChange={e => set("name", e.target.value)} placeholder="Your full name" className="h-11 rounded-md bg-card" />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Email *</label>
-                  <Input type="email" value={form.email_id} onChange={e => set("email_id", e.target.value)} placeholder="your@email.com" />
+                  <label className="mb-2 block text-sm font-medium text-foreground">Email *</label>
+                  <Input type="email" value={form.email_id} onChange={e => set("email_id", e.target.value)} placeholder="your@email.com" className="h-11 rounded-md bg-card" />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Phone</label>
-                  <Input value={form.phone} onChange={e => set("phone", e.target.value)} placeholder="+61 4xx xxx xxx" />
+                  <label className="mb-2 block text-sm font-medium text-foreground">Phone</label>
+                  <Input value={form.phone} onChange={e => set("phone", e.target.value)} placeholder="+61 4xx xxx xxx" className="h-11 rounded-md bg-card" />
                 </div>
               </div>
             )}
 
             {step === 1 && (
-              <div className="space-y-5">
+              <div className="space-y-10">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">Select your skills (choose all that apply)</label>
+                  <label className="mb-4 block text-sm font-medium text-foreground">Select your skills — choose all that apply</label>
                   <div className="flex flex-wrap gap-2">
                     {SKILLS_OPTIONS.map(s => (
-                      <button key={s} onClick={() => toggleSkill(s)}
-                        className={`px-3 py-1.5 rounded-full border text-sm transition-all ${form.skills.includes(s) ? "bg-teal-600 border-teal-600 text-white" : "border-gray-200 text-gray-600 hover:border-teal-300"}`}>
+                      <button key={s} type="button" onClick={() => toggleSkill(s)} className={chipClass(form.skills.includes(s))}>
                         {s}
                       </button>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">What areas interest you most?</label>
+                  <label className="mb-2 block text-sm font-medium text-foreground">What areas interest you most?</label>
                   <Textarea value={form.preferred_area} onChange={e => set("preferred_area", e.target.value)}
-                    placeholder="e.g. mental health advocacy, web development, community events..." rows={3} />
+                    placeholder="e.g. mental health advocacy, web development, community events…" rows={3} className="rounded-md bg-card" />
                 </div>
               </div>
             )}
 
             {step === 2 && (
-              <div className="space-y-5">
+              <div className="space-y-10">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Hours available per week</label>
+                  <label className="mb-2 block text-sm font-medium text-foreground">Hours you can give each week</label>
                   <Input type="number" min="1" max="40" value={form.hours_required}
-                    onChange={e => set("hours_required", e.target.value)} placeholder="e.g. 4" />
-                  <p className="text-xs text-gray-400 mt-1">Even 1-2 hours makes a difference!</p>
+                    onChange={e => set("hours_required", e.target.value)} placeholder="e.g. 4" className="h-11 max-w-[160px] rounded-md bg-card" />
+                  <p className="mt-2 text-sm text-muted-foreground">Even one or two hours changes someone's week.</p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">When are you typically available?</label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <label className="mb-4 block text-sm font-medium text-foreground">When are you typically available?</label>
+                  <div className="flex flex-wrap gap-2">
                     {["weekdays", "weekends", "evenings", "flexible"].map(t => (
-                      <button key={t} onClick={() => set("availability", t)}
-                        className={`py-3 rounded-xl border text-sm font-medium capitalize transition-all ${form.availability === t ? "bg-teal-600 border-teal-600 text-white" : "border-gray-200 text-gray-600 hover:border-teal-300"}`}>
+                      <button key={t} type="button" onClick={() => set("availability", t)} className={`${chipClass(form.availability === t)} capitalize`}>
                         {t}
                       </button>
                     ))}
                   </div>
                 </div>
-                <div className="bg-teal-50 rounded-xl p-4 border border-teal-100">
-                  <p className="text-xs text-teal-700 font-medium">✨ AI-powered matching</p>
-                  <p className="text-xs text-teal-600 mt-1">Our AI will read your application and suggest the volunteer role where you can make the greatest impact.</p>
+                <div className="border-t border-border pt-8">
+                  <p className="text-2xl">We'll find where you fit</p>
+                  <p className="mt-2 max-w-lg text-muted-foreground">
+                    Our matching reads your skills, interests and availability, then suggests the role where your time
+                    will make the greatest difference.
+                  </p>
                 </div>
               </div>
             )}
@@ -179,21 +189,24 @@ export default function Apply() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="flex justify-between mt-8">
-          <Button variant="outline" onClick={() => setStep(s => s - 1)} disabled={step === 0} className="gap-2">
-            <ChevronLeft className="w-4 h-4" /> Back
-          </Button>
+        <div className="mt-14 flex items-center justify-between border-t border-border pt-8">
+          <button type="button" onClick={() => setStep(s => s - 1)} disabled={step === 0}
+            className="ba-btn-secondary disabled:cursor-not-allowed disabled:opacity-40">Back</button>
           {step < steps.length - 1 ? (
-            <Button onClick={() => setStep(s => s + 1)} disabled={step === 0 && (!form.name || !form.email_id)} className="bg-teal-600 hover:bg-teal-700 gap-2">
-              Continue <ChevronRight className="w-4 h-4" />
-            </Button>
+            <button type="button" onClick={() => setStep(s => s + 1)} disabled={step === 0 && (!form.name || !form.email_id)}
+              className="ba-btn-primary disabled:cursor-not-allowed disabled:opacity-40">
+              Continue
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+            </button>
           ) : (
-            <Button onClick={handleSubmit} disabled={loading || !form.availability} className="bg-teal-600 hover:bg-teal-700 gap-2">
-              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Matching you...</> : <>Submit Application <Heart className="w-4 h-4" /></>}
-            </Button>
+            <button type="button" onClick={handleSubmit} disabled={loading || !form.availability}
+              className="ba-btn-primary disabled:cursor-not-allowed disabled:opacity-40">
+              {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Finding your match…</> : <>Submit application
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h13M13 6l6 6-6 6" /></svg></>}
+            </button>
           )}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
