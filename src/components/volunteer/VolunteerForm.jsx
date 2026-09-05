@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import AvailabilityPicker, { slotHours, formatAvailableTime } from "@/components/volunteer/AvailabilityPicker";
+import { matchRoles } from "@/components/volunteer/matchRoles";
 
 const SKILLS = [
   "Peer Support", "Web Development", "Data Analysis", "Graphic Design",
@@ -38,7 +39,7 @@ export default function VolunteerForm({ onSuccess }) {
     }
     setSaving(true);
     try {
-      await base44.entities.Volunteer.create({
+      const payload = {
         ...form,
         availability_slots: slots,
         available_days: slots.map(s => s.day),
@@ -47,8 +48,47 @@ export default function VolunteerForm({ onSuccess }) {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         status: "new",
         registered_at: new Date().toISOString()
+      };
+      const volunteer = await base44.entities.Volunteer.create(payload);
+
+      let best = null;
+      const { data } = await base44.functions.invoke("semanticMatchRoles", {
+        skills: payload.skills,
+        availability: payload.availability,
+        hours_required: payload.total_weekly_hours
       });
-      onSuccess();
+
+      if (data?.matches?.length) {
+        const top = data.matches[0];
+        best = {
+          role: { id: top.role_id, title: top.title, hours_required: top.hours_required, required_skills: top.required_skills },
+          score: top.score
+        };
+      } else {
+        const roles = await base44.entities.JobRole.list();
+        best = matchRoles(payload, roles)[0] || null;
+      }
+
+      if (best) {
+        const required = best.role.required_skills || [];
+        const matchedSkills = payload.skills.filter(s =>
+          required.some(r => r.toLowerCase().includes(s.toLowerCase()) || s.toLowerCase().includes(r.toLowerCase()))
+        );
+
+        await base44.entities.Application.create({
+          preferred_area: (matchedSkills.length ? matchedSkills : payload.skills).join(", ") || undefined,
+          volunteer_id: volunteer.id,
+          volunteer_name: payload.name,
+          volunteer_email: payload.email_id,
+          volunteer_phone: payload.phone || undefined,
+          role_id: best.role.id,
+          status: "applied",
+          applied_date: new Date().toISOString().slice(0, 10),
+          hours_required: best.role.hours_required || undefined
+        });
+      }
+
+      onSuccess(best || null);
     } catch {
       setError("Something went wrong saving your details. Please try again.");
     } finally {

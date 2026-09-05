@@ -6,6 +6,18 @@
       "type": "string",
       "description": "Volunteer record id"
     },
+    "volunteer_name": {
+      "type": "string",
+      "description": "Volunteer full name, copied at match time"
+    },
+    "volunteer_email": {
+      "type": "string",
+      "description": "Volunteer email address, copied at match time"
+    },
+    "volunteer_phone": {
+      "type": "string",
+      "description": "Volunteer phone number, copied at match time"
+    },
     "role_id": {
       "type": "string",
       "description": "JobRole record id"
