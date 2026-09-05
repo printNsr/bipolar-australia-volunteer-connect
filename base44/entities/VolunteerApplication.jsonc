@@ -1,0 +1,107 @@
+{
+  "name": "VolunteerApplication",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "age_group": {
+      "type": "string",
+      "enum": [
+        "18-24",
+        "25-34",
+        "35-44",
+        "45-54",
+        "55-64",
+        "65+"
+      ]
+    },
+    "volunteer_type": {
+      "type": "string",
+      "enum": [
+        "student",
+        "lived_experience",
+        "skilled_professional",
+        "retired",
+        "other"
+      ]
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "interests": {
+      "type": "string"
+    },
+    "availability_hours_per_week": {
+      "type": "number"
+    },
+    "availability_type": {
+      "type": "string",
+      "enum": [
+        "weekdays",
+        "weekends",
+        "evenings",
+        "flexible"
+      ]
+    },
+    "motivation": {
+      "type": "string"
+    },
+    "experience": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "reviewing",
+        "accepted",
+        "rejected",
+        "onboarding",
+        "active",
+        "paused"
+      ],
+      "default": "pending"
+    },
+    "ai_match_role": {
+      "type": "string"
+    },
+    "ai_match_reasoning": {
+      "type": "string"
+    },
+    "ai_match_score": {
+      "type": "number"
+    },
+    "assigned_role": {
+      "type": "string"
+    },
+    "admin_notes": {
+      "type": "string"
+    },
+    "hours_logged": {
+      "type": "number",
+      "default": 0
+    },
+    "onboarding_step": {
+      "type": "number",
+      "default": 0
+    },
+    "certificate_issued": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "full_name",
+    "email"
+  ]
+}
