@@ -49,9 +49,20 @@ export default function VolunteerForm({ onSuccess }) {
       };
       const volunteer = await base44.entities.Volunteer.create(payload);
 
-      const roles = await base44.entities.JobRole.list();
-      const matches = matchRoles(payload, roles);
-      const best = matches[0];
+      let best = null;
+      const { data } = await base44.functions.semanticMatchRoles({
+        skills: payload.skills,
+        availability: payload.availability,
+        hours_required: payload.total_weekly_hours
+      });
+
+      if (data?.matches?.length) {
+        const top = data.matches[0];
+        best = { role: { id: top.role_id, title: top.title, hours_required: top.hours_required }, score: top.score };
+      } else {
+        const roles = await base44.entities.JobRole.list();
+        best = matchRoles(payload, roles)[0] || null;
+      }
 
       if (best) {
         await base44.entities.Application.create({
