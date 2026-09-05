@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import AvailabilityPicker, { slotHours, formatAvailableTime } from "@/components/volunteer/AvailabilityPicker";
+import { matchRoles } from "@/components/volunteer/matchRoles";
 
 const SKILLS = [
   "Peer Support", "Web Development", "Data Analysis", "Graphic Design",
@@ -36,7 +37,7 @@ export default function VolunteerForm({ onSuccess }) {
     }
     setSaving(true);
     try {
-      await base44.entities.Volunteer.create({
+      const payload = {
         ...form,
         availability_slots: slots,
         available_days: slots.map(s => s.day),
@@ -45,8 +46,24 @@ export default function VolunteerForm({ onSuccess }) {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         status: "new",
         registered_at: new Date().toISOString()
-      });
-      onSuccess();
+      };
+      const volunteer = await base44.entities.Volunteer.create(payload);
+
+      const roles = await base44.entities.JobRole.list();
+      const matches = matchRoles(payload, roles);
+      const best = matches[0];
+
+      if (best) {
+        await base44.entities.Application.create({
+          volunteer_id: volunteer.id,
+          role_id: best.role.id,
+          status: "applied",
+          applied_date: new Date().toISOString().slice(0, 10),
+          hours_required: best.role.hours_required || undefined
+        });
+      }
+
+      onSuccess(best || null);
     } catch {
       setError("Something went wrong saving your details. Please try again.");
     } finally {

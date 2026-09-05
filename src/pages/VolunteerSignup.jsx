@@ -12,6 +12,7 @@ const HIGHLIGHTS = [
 
 export default function VolunteerSignup() {
   const [done, setDone] = useState(false);
+  const [match, setMatch] = useState(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-teal-50/60 via-white to-white">
@@ -61,12 +62,30 @@ export default function VolunteerSignup() {
               <p className="mt-3 text-gray-500">
                 Thank you for stepping forward. Our volunteer team will review your details and reach out soon.
               </p>
+              {match ? (
+                <div className="mt-8 text-left border-t border-gray-100 pt-6">
+                  <p className="text-xs uppercase tracking-[0.2em] text-teal-600 font-semibold">Your best role match</p>
+                  <p className="mt-3 text-lg font-semibold text-gray-900">{match.role.title}</p>
+                  {match.role.description && (
+                    <p className="mt-2 text-sm text-gray-500 leading-relaxed">{match.role.description}</p>
+                  )}
+                  <p className="mt-3 text-sm text-gray-500">
+                    {match.matched_skills} of {match.required_skills} skills matched · {match.score}% fit
+                    {match.role.timings ? ` · ${match.role.timings}` : ""}
+                  </p>
+                  <p className="mt-3 text-sm text-gray-400">We've placed an application for you in this role.</p>
+                </div>
+              ) : (
+                <p className="mt-6 text-sm text-gray-400">
+                  We couldn't find an open role matching your skills yet — we'll keep you in mind as new roles open.
+                </p>
+              )}
             </div>
           ) : (
             <>
               <h2 className="text-2xl font-bold text-gray-900 mb-1">Your details</h2>
               <p className="text-sm text-gray-500 mb-8">Takes about two minutes.</p>
-              <VolunteerForm onSuccess={() => setDone(true)} />
+              <VolunteerForm onSuccess={(best) => { setMatch(best); setDone(true); }} />
             </>
           )}
         </motion.div>
