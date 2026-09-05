@@ -29,7 +29,7 @@ export default function Community() {
             <p className="mt-7 max-w-xl text-lg text-muted-foreground">
               We believe connection, shared experience and meaningful contribution help people feel supported and hopeful.
             </p>
-            <Link to="/explore" className="brand-btn-accent mt-9">Explore the community</Link>
+            <Link to="/explore" className="ba-btn-primary mt-9">Explore the community</Link>
           </div>
         </section>
 
