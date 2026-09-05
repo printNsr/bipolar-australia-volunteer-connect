@@ -37,7 +37,7 @@ export default function VolunteerImpact() {
   return (
     <section className="border-t border-border py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground hidden">Volunteer impact</p>
+        
         <h2 className="mt-4 max-w-2xl text-4xl sm:text-5xl">Our Volunteers Impact</h2>
 
         <div className="mt-12 divide-y divide-border">
