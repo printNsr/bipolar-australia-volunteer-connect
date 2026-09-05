@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
-import { Users, Star, TrendingUp, Search, ClipboardList } from "lucide-react";
+import { Users, Star, TrendingUp, Search, ClipboardList, Sparkles } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import RolesTab from "@/components/admin/RolesTab";
 import ImpactTab from "@/components/admin/ImpactTab";
 import ApplicationDetail from "@/components/admin/ApplicationDetail";
 import TasksTab from "@/components/admin/TasksTab";
+import MatchingTab from "@/components/admin/MatchingTab";
 
 const STATUS_COLORS = {
   applied: "bg-yellow-100 text-yellow-800",
@@ -98,6 +99,7 @@ export default function AdminDashboard() {
             { id: "applications", label: "Applications", icon: Users, count: stats.pending },
             { id: "roles", label: "Volunteer Roles", icon: Star },
             { id: "tasks", label: "Task Allocation", icon: ClipboardList },
+            { id: "matching", label: "Role Matching", icon: Sparkles },
             { id: "impact", label: "Impact Overview", icon: TrendingUp },
           ].map(item => (
             <button key={item.id} onClick={() => setTab(item.id)}
@@ -178,6 +180,7 @@ export default function AdminDashboard() {
 
         {tab === "roles" && <RolesTab roles={roles} applications={applications} onRefresh={loadData} />}
         {tab === "tasks" && <TasksTab tasks={tasks} volunteers={volunteers} onboardings={onboardings} onRefresh={loadData} />}
+        {tab === "matching" && <MatchingTab />}
         {tab === "impact" && <ImpactTab stats={stats} applications={applications} onboardings={onboardings} />}
       </div>
     </div>
