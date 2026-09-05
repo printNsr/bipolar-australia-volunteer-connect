@@ -37,7 +37,7 @@ export default function Home() {
 
       <section id="about" className="bg-teal-950 px-4 py-10 min-[520px]:py-7 sm:px-6 lg:py-14">
         <div className="relative mx-auto min-h-[390px] max-w-6xl overflow-hidden rounded-sm bg-teal-900 min-[520px]:min-h-[300px] lg:min-h-[390px]">
-          <Image src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/77dc039d1_heropage.png" alt="Volunteers connecting in Sydney" className="absolute inset-y-0 right-0 h-full w-full min-[520px]:w-3/4" fittingType="fill" focalPointX={0.72} focalPointY={0.5} />
+          <Image src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/d43e0a86c_generated_image.png" alt="Volunteers connecting in Sydney" className="absolute inset-y-0 right-0 h-full w-full min-[520px]:w-3/4" fittingType="fill" focalPointX={0.72} focalPointY={0.5} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 mx-5 my-7 max-w-md rounded-xl bg-white p-6 shadow-xl min-[520px]:mx-10 min-[520px]:my-10 min-[520px]:max-w-[50%] min-[520px]:p-5 lg:max-w-md lg:p-9">
             <p className="mb-3 text-xs font-bold uppercase tracking-wider text-teal-900">Volunteer with us</p>
             <h1 className="font-impact-heading text-3xl font-extrabold leading-[0.98] tracking-tight text-slate-950 min-[520px]:text-2xl lg:text-5xl">Help us support people living with bipolar disorder</h1>
