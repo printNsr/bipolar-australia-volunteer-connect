@@ -5,7 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
-import { Users, Clock, Star, TrendingUp, CheckCircle, XCircle, Eye, Search, Filter, Heart } from "lucide-react";
+import { Users, Clock, Star, TrendingUp, CheckCircle, XCircle, Eye, Search, Filter } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 
 const STATUS_COLORS = {
   pending: "bg-yellow-100 text-yellow-800",
@@ -66,15 +67,8 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-100 flex flex-col">
         <div className="p-6 border-b border-gray-100">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center">
-              <Heart className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <p className="text-xs text-gray-400">Bipolar Australia</p>
-              <p className="text-sm font-bold text-gray-800">Admin Panel</p>
-            </div>
-          </div>
+          <BrandLogo className="h-14 w-full" />
+          <p className="mt-2 text-center text-sm font-bold text-gray-800">Admin Panel</p>
         </div>
         <nav className="p-4 space-y-1 flex-1">
           {[

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, CheckCircle, Loader2, ChevronRight, ChevronLeft } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 
 const SKILLS_OPTIONS = [
   "Web Development", "Data Analysis", "Graphic Design", "Social Media",
@@ -121,14 +122,9 @@ Return JSON with:
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-green-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-100 px-6 py-4">
-        <div className="max-w-2xl mx-auto flex items-center gap-3">
-          <div className="w-9 h-9 bg-teal-600 rounded-full flex items-center justify-center">
-            <Heart className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <p className="text-xs text-gray-400 uppercase tracking-wide">Bipolar Australia</p>
-            <p className="text-sm font-semibold text-gray-800">Volunteer Application</p>
-          </div>
+        <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
+          <BrandLogo />
+          <p className="text-sm font-semibold text-gray-800">Volunteer Application</p>
         </div>
       </div>
 

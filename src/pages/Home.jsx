@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, BadgeCheck, ClipboardCheck, FileText, HandHeart, ListChecks, Sparkles } from "lucide-react";
 import { Image } from "@/components/ui/image";
+import BrandLogo from "@/components/BrandLogo";
 
 const STATS = [
 { value: "568,000+", label: "Australians with bipolar disorder" },
@@ -23,9 +24,7 @@ export default function Home() {
     <div className="impact-page min-h-screen bg-white font-impact-body text-slate-950">
       <nav className="border-b border-slate-100 bg-white px-4 py-3 sm:px-6">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
-          <Link to="/" className="shrink-0" aria-label="Bipolar Australia home">
-            <Image src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/fb36a73b3_logo.jpg" alt="Bipolar Australia — Recovering together" className="h-12 w-32 sm:h-14 sm:w-36" fittingType="fit" />
-          </Link>
+          <BrandLogo />
           <div className="flex items-center gap-3 whitespace-nowrap text-xs font-semibold text-slate-700 sm:gap-6 sm:text-sm">
             <a href="#about" className="hover:text-teal-800">About</a>
             <a href="#get-support" className="hover:text-teal-800">Get Support</a>
