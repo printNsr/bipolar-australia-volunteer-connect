@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import StatusPill from "@/components/StatusPill";
+import { Plus, Boxes } from "lucide-react";
 
 const EMPTY = { volunteer_id: "", title: "", description: "", space_url: "" };
 
@@ -21,60 +22,58 @@ export default function TasksTab({ tasks, volunteers, onboardings, onRefresh }) 
   };
 
   return (
-    <div className="p-8">
-      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-4xl">Task allocation</h2>
-          <p className="mt-2 text-[15px] text-muted-foreground">Assign work to onboarded volunteers.</p>
+          <h2 className="text-xl font-bold text-gray-900">Task Allocation</h2>
+          <p className="text-sm text-gray-500">Assign work to onboarded volunteers.</p>
         </div>
-        <button onClick={() => setShowForm(s => !s)} className="brand-btn-accent">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
-          Allocate task
-        </button>
+        <Button onClick={() => setShowForm(s => !s)} className="bg-teal-600 hover:bg-teal-700 gap-2">
+          <Plus className="w-4 h-4" /> Allocate Task
+        </Button>
       </div>
 
       {showForm && (
-        <div className="mt-8 max-w-2xl space-y-4 border-b border-border pb-8">
+        <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-6 space-y-3">
           <select value={form.volunteer_id} onChange={e => set("volunteer_id", e.target.value)}
-            className="h-11 w-full rounded-md border border-input bg-card px-3 text-sm text-foreground">
+            className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm">
             <option value="">Select volunteer…</option>
             {eligible.map(v => <option key={v.id} value={v.id}>{v.name} — {v.email_id}</option>)}
           </select>
-          <Input value={form.title} onChange={e => set("title", e.target.value)} placeholder="Task title" className="h-11 rounded-md bg-card" />
-          <Textarea value={form.description} onChange={e => set("description", e.target.value)} placeholder="What needs doing?" rows={3} className="rounded-md bg-card" />
-          <Input value={form.space_url} onChange={e => set("space_url", e.target.value)} placeholder="3D space link (optional)" className="h-11 rounded-md bg-card" />
-          <div className="flex gap-3 pt-2">
-            <button onClick={save} disabled={!form.volunteer_id || !form.title} className="ba-btn-primary disabled:cursor-not-allowed disabled:opacity-40">Save</button>
-            <button onClick={() => setShowForm(false)} className="ba-btn-secondary">Cancel</button>
+          <Input value={form.title} onChange={e => set("title", e.target.value)} placeholder="Task title" />
+          <Textarea value={form.description} onChange={e => set("description", e.target.value)} placeholder="What needs doing?" rows={3} />
+          <Input value={form.space_url} onChange={e => set("space_url", e.target.value)} placeholder="3D space link (optional)" />
+          <div className="flex gap-2">
+            <Button onClick={save} disabled={!form.volunteer_id || !form.title} className="bg-teal-600 hover:bg-teal-700">Save</Button>
+            <Button variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
           </div>
-          {eligible.length === 0 && <p className="text-sm text-muted-foreground">Start onboarding a volunteer first to allocate tasks.</p>}
+          {eligible.length === 0 && <p className="text-xs text-amber-600">Start onboarding a volunteer first to allocate tasks.</p>}
         </div>
       )}
 
-      <ul className="mt-4">
-        {tasks.length === 0 && <p className="py-8 text-sm text-muted-foreground">No tasks allocated yet.</p>}
+      <div className="grid grid-cols-2 gap-4">
+        {tasks.length === 0 && <p className="text-sm text-gray-400">No tasks allocated yet.</p>}
         {tasks.map(t => {
           const v = volunteers.find(x => x.id === t.volunteer_id);
           return (
-            <li key={t.id} className="grid gap-4 border-b border-border py-7 lg:grid-cols-[1fr_14rem]">
-              <div>
-                <div className="flex items-center gap-4">
-                  <h3 className="text-2xl">{t.title}</h3>
-                  <StatusPill status={t.status || "assigned"} />
-                </div>
-                {t.description && <p className="mt-2 max-w-2xl text-[15px] text-muted-foreground">{t.description}</p>}
+            <div key={t.id} className="bg-white rounded-2xl border border-gray-100 p-5">
+              <div className="flex items-start justify-between gap-2">
+                <p className="font-semibold text-gray-900">{t.title}</p>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 capitalize shrink-0">
+                  {(t.status || "assigned").replace("_", " ")}
+                </span>
               </div>
-              <div className="text-sm text-muted-foreground lg:text-right">
-                <p>{v?.name || "Unassigned"}</p>
-                <p className="mt-1">{t.hours_logged || 0} hrs logged</p>
-                {t.space_url && (
-                  <a href={t.space_url} target="_blank" rel="noreferrer" className="mt-1 inline-block text-primary hover:underline">3D space</a>
-                )}
-              </div>
-            </li>
+              <p className="text-xs text-gray-400 mt-1">{v?.name || "Unassigned"} • {t.hours_logged || 0} hrs logged</p>
+              {t.description && <p className="text-sm text-gray-500 mt-2">{t.description}</p>}
+              {t.space_url && (
+                <a href={t.space_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-xs text-teal-600 hover:underline mt-3">
+                  <Boxes className="w-3.5 h-3.5" /> 3D space
+                </a>
+              )}
+            </div>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }

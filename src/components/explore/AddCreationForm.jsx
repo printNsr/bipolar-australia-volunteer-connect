@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -18,31 +19,28 @@ export default function AddCreationForm({ landmarkId, onSaved, onCancel }) {
   };
 
   return (
-    <div className="space-y-4 border-b border-border pb-8">
-      <Input placeholder="Title of your creation" value={form.title} onChange={(e) => set("title", e.target.value)} className="h-11 rounded-md bg-card" />
-      <Input placeholder="Your name" value={form.creator_name} onChange={(e) => set("creator_name", e.target.value)} className="h-11 rounded-md bg-card" />
+    <div className="space-y-3 rounded-xl border border-teal-200 bg-teal-50/50 p-4">
+      <Input placeholder="Title of your creation" value={form.title} onChange={(e) => set("title", e.target.value)} />
+      <Input placeholder="Your name" value={form.creator_name} onChange={(e) => set("creator_name", e.target.value)} />
       <div className="flex flex-wrap gap-2">
         {TYPES.map((t) => (
           <button
             key={t}
-            type="button"
             onClick={() => set("type", t)}
-            className={`brand-pill border capitalize transition-colors ${
-              form.type === t
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-card text-muted-foreground hover:border-muted-foreground"
+            className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${
+              form.type === t ? "bg-teal-800 text-white" : "bg-white text-slate-600 border border-slate-200"
             }`}
           >
             {t}
           </button>
         ))}
       </div>
-      <Textarea placeholder="Tell people about it…" value={form.description} onChange={(e) => set("description", e.target.value)} className="rounded-md bg-card" />
-      <div className="flex gap-3">
-        <button onClick={save} disabled={!form.title || saving} className="ba-btn-primary disabled:cursor-not-allowed disabled:opacity-40">
-          {saving ? "Saving…" : "Share creation"}
-        </button>
-        <button onClick={onCancel} className="ba-btn-secondary">Cancel</button>
+      <Textarea placeholder="Tell people about it..." value={form.description} onChange={(e) => set("description", e.target.value)} />
+      <div className="flex gap-2">
+        <Button onClick={save} disabled={!form.title || saving} className="bg-teal-800 hover:bg-teal-900">
+          {saving ? "Saving..." : "Share creation"}
+        </Button>
+        <Button variant="ghost" onClick={onCancel}>Cancel</Button>
       </div>
     </div>
   );

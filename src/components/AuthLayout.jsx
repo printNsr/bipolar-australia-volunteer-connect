@@ -9,10 +9,10 @@ export default function AuthLayout({ title, subtitle, footer, children }) {
           <div className="mb-5 flex justify-center">
             <BrandLogo className="h-16 w-44" />
           </div>
-          <h1 className="text-4xl text-foreground">{title}</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
           {subtitle && <p className="text-muted-foreground mt-2">{subtitle}</p>}
         </div>
-        <div className="bg-card rounded-lg border border-border p-8 shadow-sm">
+        <div className="bg-card rounded-2xl shadow-sm border border-border p-8">
           {children}
         </div>
         {footer && (

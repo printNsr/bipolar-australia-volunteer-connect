@@ -29,10 +29,6 @@
     },
     "image_url": {
       "type": "string"
-    },
-    "project_id": {
-      "type": "string",
-      "description": "Source Studio project id when published from Studio"
     }
   },
   "required": [

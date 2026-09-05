@@ -1,30 +1,33 @@
+import { Check } from "lucide-react";
+
 const STEPS = [
   { key: "applied", label: "Application submitted", note: "Your profile is in our system." },
-  { key: "matched", label: "Role match", note: "Matched to the role where you'll have most impact." },
-  { key: "approved", label: "Coordinator approval", note: "Reviewed and accepted by our team." },
+  { key: "matched", label: "AI role match", note: "Matched to the role where you'll have most impact." },
+  { key: "approved", label: "Admin approval", note: "Reviewed and accepted by our coordinator." },
   { key: "onboarding", label: "Onboarding", note: "Induction, code of conduct and role briefing." },
-  { key: "tasks", label: "Tasks allocated", note: "Start contributing on your assigned work." },
+  { key: "tasks", label: "Tasks allocated", note: "Start contributing on your assigned tasks." },
   { key: "certificate", label: "Certificate", note: "Issued once you log 8+ volunteering hours." }
 ];
 
 export default function OnboardingChecklist({ reached }) {
   return (
-    <div>
-      <h2 className="text-3xl">Your journey</h2>
-      <ol className="mt-6 border-t border-border">
+    <div className="bg-white rounded-2xl border border-gray-100 p-6">
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-5">Your journey</h2>
+      <ol className="space-y-4">
         {STEPS.map((s, i) => {
           const done = i <= reached;
           const current = i === reached + 1;
           return (
-            <li key={s.key} className="flex gap-4 border-b border-border py-5">
-              <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-medium transition-colors ${done ? "bg-primary text-primary-foreground" : current ? "bg-muted text-primary" : "border border-border text-muted-foreground"}`}>
-                {done ? (
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
-                ) : i + 1}
-              </span>
-              <div>
-                <p className={`text-[15px] font-medium ${done ? "text-foreground" : "text-muted-foreground"}`}>{s.label}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{s.note}</p>
+            <li key={s.key} className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 transition-colors ${done ? "bg-teal-600 text-white" : current ? "bg-teal-50 text-teal-600 ring-1 ring-teal-200" : "bg-gray-100 text-gray-400"}`}>
+                  {done ? <Check className="w-3.5 h-3.5" /> : i + 1}
+                </div>
+                {i < STEPS.length - 1 && <div className={`w-px flex-1 mt-1 ${done ? "bg-teal-200" : "bg-gray-100"}`} />}
+              </div>
+              <div className="pb-1">
+                <p className={`text-sm font-medium ${done ? "text-gray-900" : "text-gray-500"}`}>{s.label}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{s.note}</p>
               </div>
             </li>
           );

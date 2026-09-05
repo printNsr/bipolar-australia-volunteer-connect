@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
+import { Input } from "@/components/ui/input";
+import { Users, Star, TrendingUp, Search, ClipboardList } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
-import StatusPill from "@/components/StatusPill";
 import RolesTab from "@/components/admin/RolesTab";
 import ImpactTab from "@/components/admin/ImpactTab";
 import ApplicationDetail from "@/components/admin/ApplicationDetail";
 import TasksTab from "@/components/admin/TasksTab";
 
-const NAV_ICONS = {
-  applications: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="8" r="3" /><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5" /><path d="M16 6.5a2.6 2.6 0 0 1 0 5" /><path d="M17 15.5c2 .6 3.5 2.3 3.5 4.5" /></svg>,
-  roles: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>,
-  tasks: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2" /><path d="M3.5 9.5h17M8 3v4M16 3v4" /></svg>,
-  impact: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" /></svg>
+const STATUS_COLORS = {
+  applied: "bg-yellow-100 text-yellow-800",
+  reviewing: "bg-blue-100 text-blue-800",
+  accepted: "bg-green-100 text-green-800",
+  rejected: "bg-red-100 text-red-800",
+  withdrawn: "bg-gray-100 text-gray-600"
 };
 
 export default function AdminDashboard() {
@@ -85,73 +87,71 @@ export default function AdminDashboard() {
   });
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
-      <aside className="flex w-64 shrink-0 flex-col border-r border-border">
-        <div className="border-b border-border p-6">
-          <BrandLogo className="h-12 w-full" />
-          <p className="mt-3 text-center text-sm text-muted-foreground">Coordinator workspace</p>
+    <div className="min-h-screen bg-gray-50 flex">
+      <div className="w-64 bg-white border-r border-gray-100 flex flex-col">
+        <div className="p-6 border-b border-gray-100">
+          <BrandLogo className="h-14 w-full" />
+          <p className="mt-2 text-center text-sm font-bold text-gray-800">Admin Panel</p>
         </div>
-        <nav className="flex-1 p-4">
+        <nav className="p-4 space-y-1 flex-1">
           {[
-            { id: "applications", label: "Applications", count: stats.pending },
-            { id: "roles", label: "Volunteer roles" },
-            { id: "tasks", label: "Task allocation" },
-            { id: "impact", label: "Impact overview" }
+            { id: "applications", label: "Applications", icon: Users, count: stats.pending },
+            { id: "roles", label: "Volunteer Roles", icon: Star },
+            { id: "tasks", label: "Task Allocation", icon: ClipboardList },
+            { id: "impact", label: "Impact Overview", icon: TrendingUp },
           ].map(item => (
-            <button
-              key={item.id}
-              onClick={() => setTab(item.id)}
-              aria-current={tab === item.id ? "page" : undefined}
-              className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-[15px] transition-colors ${tab === item.id ? "bg-muted text-primary" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              <span className={tab === item.id ? "text-primary" : "text-muted-foreground"}>{NAV_ICONS[item.id]}</span>
+            <button key={item.id} onClick={() => setTab(item.id)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === item.id ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:bg-gray-50"}`}>
+              <item.icon className="w-4 h-4" />
               {item.label}
-              {item.count > 0 && <span className="brand-pill brand-pill-pending ml-auto">{item.count}</span>}
+              {item.count > 0 && <span className="ml-auto bg-yellow-100 text-yellow-800 text-xs px-1.5 py-0.5 rounded-full">{item.count}</span>}
             </button>
           ))}
         </nav>
-        <div className="border-t border-border p-4 text-sm">
-          <a href="/" className="block text-muted-foreground transition-colors hover:text-primary">Public site</a>
-          <a href="/portal" className="mt-2 block text-muted-foreground transition-colors hover:text-primary">Volunteer portal</a>
+        <div className="p-4 border-t border-gray-100">
+          <a href="/" className="block text-xs text-teal-600 hover:underline">← Public Apply Page</a>
+          <a href="/portal" className="block text-xs text-teal-600 hover:underline mt-1">Volunteer Portal →</a>
         </div>
-      </aside>
+      </div>
 
       <div className="flex-1 overflow-auto">
         {tab === "applications" && (
           <div className="flex h-full">
-            <div className="flex w-80 shrink-0 flex-col border-r border-border">
-              <div className="border-b border-border p-4">
-                <label className="brand-search w-full">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--brand-muted-foreground)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-                  <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search volunteers…" />
-                </label>
-                <div className="mt-3 flex flex-wrap gap-1.5">
+            <div className="w-80 border-r border-gray-100 bg-white flex flex-col">
+              <div className="p-4 border-b border-gray-100">
+                <div className="relative mb-3">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search..." className="pl-9 text-sm" />
+                </div>
+                <div className="flex flex-wrap gap-1">
                   {["all", "applied", "reviewing", "accepted", "rejected", "withdrawn"].map(s => (
                     <button key={s} onClick={() => setFilterStatus(s)}
-                      className={`rounded-full border px-3 py-1 text-xs capitalize transition-colors ${filterStatus === s ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground hover:border-muted-foreground"}`}>
+                      className={`text-xs px-2 py-1 rounded-full border transition-all capitalize ${filterStatus === s ? "bg-teal-600 text-white border-teal-600" : "border-gray-200 text-gray-500 hover:border-teal-300"}`}>
                       {s}
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="flex-1 overflow-auto">
+              <div className="overflow-auto flex-1">
                 {loading ? (
-                  <p className="p-8 text-center text-sm text-muted-foreground">Loading…</p>
+                  <div className="p-8 text-center text-gray-400 text-sm">Loading...</div>
                 ) : filtered.length === 0 ? (
-                  <p className="p-8 text-center text-sm text-muted-foreground">No applications found</p>
+                  <div className="p-8 text-center text-gray-400 text-sm">No applications found</div>
                 ) : filtered.map(app => {
                   const v = volunteerOf(app);
                   const r = roleOf(app);
                   return (
                     <button key={app.id} onClick={() => setSelectedId(app.id)}
-                      className={`w-full border-b border-border p-4 text-left transition-colors ${selectedId === app.id ? "bg-muted" : "hover:bg-muted/50"}`}>
+                      className={`w-full text-left p-4 border-b border-gray-50 hover:bg-gray-50 transition-all ${selectedId === app.id ? "bg-teal-50 border-l-2 border-l-teal-500" : ""}`}>
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <p className="text-sm font-medium text-foreground">{v?.name || "Unknown"}</p>
-                          <p className="mt-0.5 text-xs text-muted-foreground">{v?.email_id}</p>
-                          {r && <p className="mt-1 text-xs text-primary">{r.title}</p>}
+                          <p className="font-medium text-gray-800 text-sm">{v?.name || "Unknown"}</p>
+                          <p className="text-xs text-gray-400 mt-0.5">{v?.email_id}</p>
+                          {r && <p className="text-xs text-teal-600 mt-1">🎯 {r.title}</p>}
                         </div>
-                        <StatusPill status={app.status} className="shrink-0" />
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium shrink-0 capitalize ${STATUS_COLORS[app.status] || "bg-gray-100 text-gray-600"}`}>
+                          {app.status}
+                        </span>
                       </div>
                     </button>
                   );
@@ -159,9 +159,9 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className="flex-1 overflow-auto p-8">
+            <div className="flex-1 p-6 overflow-auto">
               {!selected ? (
-                <p className="flex h-full items-center justify-center text-sm text-muted-foreground">Select an application to review</p>
+                <div className="h-full flex items-center justify-center text-gray-400 text-sm">Select an application to review</div>
               ) : (
                 <ApplicationDetail
                   application={selected}

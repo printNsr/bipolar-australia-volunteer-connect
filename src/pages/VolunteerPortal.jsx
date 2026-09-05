@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
-import PageHeader from "@/components/PageHeader";
+import { Loader2, Search } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 import OnboardingChecklist from "@/components/portal/OnboardingChecklist";
 import TaskCard from "@/components/portal/TaskCard";
 import CertificateCard from "@/components/portal/CertificateCard";
@@ -64,36 +65,32 @@ export default function VolunteerPortal() {
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-background text-foreground">
-        <PageHeader label="Volunteer portal" width="max-w-3xl" />
-        <main className="mx-auto max-w-3xl px-6 py-24">
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-5xl">Welcome back.</h1>
-            <p className="mt-5 max-w-md text-lg text-muted-foreground">
-              Enter the email you applied with to see your onboarding, your tasks and your certificate.
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-green-50 flex flex-col">
+        <div className="bg-white border-b border-gray-100 px-6 py-4">
+          <div className="max-w-2xl mx-auto flex items-center justify-between">
+            <BrandLogo />
+            <p className="text-sm font-semibold text-gray-800">Volunteer Portal</p>
+          </div>
+        </div>
+        <div className="flex-1 flex items-center justify-center p-6">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            className="w-full max-w-md bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
+            <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
+            <p className="text-sm text-gray-500 mt-1 mb-6">
+              Enter the email you applied with to see your onboarding, tasks and certificate.
             </p>
-
-            <div className="mt-10 max-w-md">
-              <label className="brand-search w-full">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--brand-muted-foreground)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-                <input
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  onKeyDown={e => e.key === "Enter" && lookup()}
-                  placeholder="your@email.com"
-                />
-              </label>
-              <button onClick={lookup} disabled={loading || !email} className="ba-btn-primary mt-5 disabled:cursor-not-allowed disabled:opacity-40">
-                {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Looking you up…</> : <>Open my portal
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h13M13 6l6 6-6 6" /></svg></>}
-              </button>
-              {notFound && <p className="mt-4 text-sm text-destructive">We couldn't find an application with that email.</p>}
-              <p className="mt-10 border-t border-border pt-6 text-sm text-muted-foreground">
-                Haven't applied yet? <a href="/apply" className="text-primary hover:underline">Apply here</a>
-              </p>
+            <div className="relative mb-3">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Input value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && lookup()}
+                placeholder="your@email.com" className="pl-9" />
             </div>
+            <Button onClick={lookup} disabled={loading || !email} className="w-full bg-teal-600 hover:bg-teal-700 gap-2">
+              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Looking you up…</> : "Open my portal"}
+            </Button>
+            {notFound && <p className="text-sm text-red-600 mt-3">We couldn't find an application with that email.</p>}
+            <p className="text-xs text-gray-400 mt-6 text-center">Haven't applied yet? <a href="/apply" className="text-teal-600 hover:underline">Apply here</a></p>
           </motion.div>
-        </main>
+        </div>
       </div>
     );
   }
@@ -109,45 +106,46 @@ export default function VolunteerPortal() {
   if (certificate) reached = 5;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <PageHeader width="max-w-5xl">
-        <button onClick={() => { setData(null); setEmail(""); }} className="text-sm text-muted-foreground transition-colors hover:text-primary">
-          Sign out
-        </button>
-      </PageHeader>
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-white border-b border-gray-100 px-6 py-4">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <BrandLogo />
+          <button onClick={() => { setData(null); setEmail(""); }} className="text-sm text-gray-500 hover:text-teal-600">Sign out</button>
+        </div>
+      </div>
 
-      <main className="mx-auto max-w-5xl px-6 py-14">
+      <div className="max-w-5xl mx-auto px-6 py-10">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-          <p className="text-xs uppercase tracking-[0.18em] text-secondary">Volunteer portal</p>
-          <h1 className="mt-4 text-5xl">Hello, {volunteer.name.split(" ")[0]}</h1>
-          <p className="mt-4 text-lg text-muted-foreground">
-            {role ? `You're matched to ${role.title}.` : "Your role match is being finalised."}
+          <p className="text-xs font-semibold uppercase tracking-widest text-teal-600">Volunteer Portal</p>
+          <h1 className="text-3xl font-bold text-gray-900 mt-1">Hello, {volunteer.name}</h1>
+          <p className="text-gray-500 mt-1">
+            {role ? `Matched role: ${role.title}` : "Your role match is being finalised."}
           </p>
         </motion.div>
 
-        <div className="mt-14 grid gap-10 border-y border-border py-10 sm:grid-cols-3">
+        <div className="grid grid-cols-3 gap-4 mt-8">
           {[
-            { value: (application?.status || "—"), label: "where your application sits today" },
-            { value: `${totalHours}`, label: "hours you've chosen to give" },
-            { value: `${tasks.filter(t => t.status !== "completed").length}`, label: "pieces of work in your hands" }
+            { label: "Application status", value: application?.status || "—" },
+            { label: "Hours logged", value: `${totalHours}` },
+            { label: "Active tasks", value: `${tasks.filter(t => t.status !== "completed").length}` }
           ].map(s => (
-            <div key={s.label}>
-              <p className="font-heading text-5xl capitalize text-foreground">{s.value}</p>
-              <p className="mt-3 text-sm text-muted-foreground">{s.label}</p>
+            <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-5">
+              <p className="text-xs text-gray-400">{s.label}</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1 capitalize">{s.value}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-14 grid gap-14 lg:grid-cols-3">
-          <div className="space-y-14 lg:col-span-2">
+        <div className="grid lg:grid-cols-3 gap-6 mt-6">
+          <div className="lg:col-span-2 space-y-6">
             <div>
-              <h2 className="text-3xl">Your tasks</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">Your tasks</h2>
               {tasks.length === 0 ? (
-                <p className="mt-6 border-t border-border pt-6 text-[15px] text-muted-foreground">
+                <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-8 text-center text-sm text-gray-400">
                   {onboarding ? "No tasks allocated yet — your coordinator will assign work shortly." : "Tasks appear here once onboarding begins."}
-                </p>
+                </div>
               ) : (
-                <div className="mt-6 space-y-5">
+                <div className="space-y-4">
                   {tasks.map(t => <TaskCard key={t.id} task={t} onLogHours={logHours} onComplete={complete} />)}
                 </div>
               )}
@@ -156,7 +154,7 @@ export default function VolunteerPortal() {
           </div>
           <OnboardingChecklist reached={reached} />
         </div>
-      </main>
+      </div>
     </div>
   );
 }

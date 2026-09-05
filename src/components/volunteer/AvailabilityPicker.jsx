@@ -38,8 +38,8 @@ export default function AvailabilityPicker({ slots, onChange }) {
 
   return (
     <div>
-      <label className="mb-1 block text-sm font-medium text-foreground">Exact availability</label>
-      <p className="mb-4 text-sm text-muted-foreground">Pick your days, then set the exact hours you can help on each one.</p>
+      <label className="block text-sm font-medium text-gray-700 mb-1">Exact availability</label>
+      <p className="text-xs text-gray-400 mb-3">Pick your days, then set the exact hours you can help on each one.</p>
 
       <div className="flex flex-wrap gap-2">
         {DAYS.map(d => (
@@ -47,10 +47,10 @@ export default function AvailabilityPicker({ slots, onChange }) {
             key={d.key}
             type="button"
             onClick={() => toggle(d.key)}
-            className={`brand-pill border transition-colors ${
+            className={`px-4 py-2 rounded-full text-sm border transition-colors ${
               find(d.key)
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-card text-muted-foreground hover:border-muted-foreground"
+                ? "bg-teal-600 text-white border-teal-600"
+                : "bg-white text-gray-600 border-gray-200 hover:border-teal-400"
             }`}
           >
             {d.label}
@@ -64,12 +64,12 @@ export default function AvailabilityPicker({ slots, onChange }) {
             const slot = find(d.key);
             const hours = slotHours(slot.start_time, slot.end_time);
             return (
-              <div key={d.key} className="flex flex-wrap items-center gap-3 border-b border-border py-3">
-                <span className="w-14 text-sm font-medium text-foreground">{d.label}</span>
-                <Input type="time" value={slot.start_time} onChange={e => setTime(d.key, "start_time", e.target.value)} className="h-10 w-32 rounded-md bg-card" />
-                <span className="text-sm text-muted-foreground">to</span>
-                <Input type="time" value={slot.end_time} onChange={e => setTime(d.key, "end_time", e.target.value)} className="h-10 w-32 rounded-md bg-card" />
-                <span className={`ml-auto text-xs font-medium ${hours > 0 ? "text-primary" : "text-destructive"}`}>
+              <div key={d.key} className="flex flex-wrap items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/60 px-4 py-3">
+                <span className="w-14 text-sm font-semibold text-gray-700">{d.label}</span>
+                <Input type="time" value={slot.start_time} onChange={e => setTime(d.key, "start_time", e.target.value)} className="h-10 w-32 bg-white" />
+                <span className="text-sm text-gray-400">to</span>
+                <Input type="time" value={slot.end_time} onChange={e => setTime(d.key, "end_time", e.target.value)} className="h-10 w-32 bg-white" />
+                <span className={`ml-auto text-xs font-medium ${hours > 0 ? "text-teal-700" : "text-red-500"}`}>
                   {hours > 0 ? `${hours} hrs` : "End must be after start"}
                 </span>
               </div>
