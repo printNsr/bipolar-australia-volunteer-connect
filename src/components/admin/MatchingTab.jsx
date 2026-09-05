@@ -27,7 +27,8 @@ export default function MatchingTab({ volunteers, roles, applications, onRefresh
       <h2 className="text-2xl font-semibold text-gray-800">Volunteer → Role Matching</h2>
       <p className="mt-2 text-sm text-gray-500">
         Scores every volunteer against the {roles.length} open role{roles.length === 1 ? "" : "s"} using semantic
-        similarity plus required-skill overlap, then saves the best match as an application.
+        similarity, required-skill overlap and availability. Roles whose timings clash with a volunteer's
+        availability are excluded outright, and the best remaining role is saved as an application.
       </p>
       <p className="mt-1 text-sm text-gray-500">{unmatched.length} volunteer(s) without an application.</p>
 
@@ -54,6 +55,12 @@ export default function MatchingTab({ volunteers, roles, applications, onRefresh
                 <div>
                   <p className="text-sm font-medium text-gray-800">{r.volunteer_name}</p>
                   <p className="text-xs text-gray-500">{r.matched ? r.role_title : r.reason}</p>
+                  {r.matched && (
+                    <p className="text-xs text-gray-400">
+                      {r.role_timings || "Flexible timing"}
+                      {r.availability_reason ? ` · ${r.availability_reason}` : ""}
+                    </p>
+                  )}
                 </div>
                 {r.matched ? (
                   <span className="flex items-center gap-1 text-xs font-medium text-green-700">

@@ -30,19 +30,26 @@ export default async function (req) {
     let created = 0;
 
     for (const v of targets) {
-      const ranked = await rankRoles({
+      const { matches } = await rankRoles({
         profileInput: {
           skills: v.skills || [],
           preferred_area: (v.skills || []).join(', '),
           availability: v.availability || '',
+          available_days: v.available_days || [],
+          availability_slots: v.availability_slots || [],
+          available_time: v.available_time || '',
           hours_required: v.total_weekly_hours || ''
         },
         roles,
         accessToken
       });
 
-      const best = ranked[0];
-      if (!best || best.score < MIN_SCORE) {
+      const best = matches[0];
+      if (!best) {
+        results.push({ volunteer_id: v.id, volunteer_name: v.name, matched: false, reason: 'No role fits their availability' });
+        continue;
+      }
+      if (best.score < MIN_SCORE) {
         results.push({ volunteer_id: v.id, volunteer_name: v.name, matched: false, reason: 'No strong match' });
         continue;
       }
@@ -67,6 +74,8 @@ export default async function (req) {
         matched: true,
         role_id: best.role_id,
         role_title: best.title,
+        role_timings: best.timings,
+        availability_reason: best.availability_reason,
         score: best.score,
         application_id: applicationId
       });
