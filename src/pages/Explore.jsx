@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import BrandLogo from "@/components/BrandLogo";
-import SydneyMap from "@/components/explore/SydneyMap";
+import SydneyMap3D from "@/components/explore/SydneyMap3D";
+import LandmarkInfoCard from "@/components/explore/LandmarkInfoCard";
 import CreationList from "@/components/explore/CreationList";
 import AddCreationForm from "@/components/explore/AddCreationForm";
 import { LANDMARKS, SAMPLE_CREATIONS } from "@/components/explore/landmarks";
@@ -11,6 +12,7 @@ export default function Explore() {
   const [creations, setCreations] = useState([]);
   const [selectedId, setSelectedId] = useState(LANDMARKS[0].id);
   const [adding, setAdding] = useState(false);
+  const [cardOpen, setCardOpen] = useState(false);
 
   const load = async () => {
     const list = await base44.entities.Creation.list("-created_date");
@@ -45,7 +47,20 @@ export default function Explore() {
         </div>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[1.6fr_1fr]">
-          <SydneyMap selectedId={selectedId} onSelect={(id) => { setSelectedId(id); setAdding(false); }} countFor={countFor} />
+          <div className="relative">
+            <SydneyMap3D
+              selectedId={selectedId}
+              onSelect={(id) => { setSelectedId(id); setAdding(false); setCardOpen(true); }}
+              countFor={countFor}
+            />
+            {cardOpen && (
+              <LandmarkInfoCard
+                landmark={selected}
+                creations={selectedCreations}
+                onClose={() => setCardOpen(false)}
+              />
+            )}
+          </div>
 
           <aside className="border-t border-border pt-8">
             <h2 className="text-3xl">{selected.name}</h2>
@@ -55,7 +70,7 @@ export default function Explore() {
               <p className="text-sm text-muted-foreground">
                 {selectedCreations.length} creation{selectedCreations.length === 1 ? "" : "s"}
               </p>
-              <button onClick={() => setAdding((a) => !a)} className="brand-btn-accent">
+              <button onClick={() => setAdding((a) => !a)} className="ba-btn-primary">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
                 Add
               </button>
