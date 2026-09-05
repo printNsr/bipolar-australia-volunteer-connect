@@ -14,7 +14,10 @@ export default function StudioNav() {
     <nav className="border-b border-border px-6 py-4">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
         <BrandLogo />
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center gap-6">
+          <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+            Back to home
+          </Link>
           {LINKS.map(({ to, label }) => (
             <Link
               key={to}
