@@ -56,6 +56,9 @@ export default function VolunteerForm({ onSuccess }) {
       if (best) {
         await base44.entities.Application.create({
           volunteer_id: volunteer.id,
+          volunteer_name: payload.name,
+          volunteer_email: payload.email_id,
+          volunteer_phone: payload.phone || undefined,
           role_id: best.role.id,
           status: "applied",
           applied_date: new Date().toISOString().slice(0, 10),
