@@ -7,6 +7,7 @@ export default function VolunteerMatchRow({ result }) {
           <p className="text-xs text-gray-400">{result.email_id}</p>
         </div>
         <p className="text-xs text-gray-500">
+          {result.saved && <span className="mr-2 rounded-full bg-teal-100 px-2 py-0.5 font-medium text-teal-700">application saved</span>}
           {result.availability || "availability not set"}
           {result.available_time ? ` · ${result.available_time}` : ""}
         </p>
