@@ -45,7 +45,8 @@ function Logo({ logo }) {
         backgroundImage: `url(${SHEET})`,
         backgroundSize: `${SHEET_WIDTH * k}px auto`,
         backgroundPosition: `-${logo.x * k}px -${logo.y * k}px`,
-        backgroundRepeat: "no-repeat"
+        backgroundRepeat: "no-repeat",
+        mixBlendMode: "multiply"
       }}
     />
   );
