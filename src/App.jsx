@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Apply from './pages/Apply';
 import AdminDashboard from './pages/AdminDashboard';
 import VolunteerSignup from './pages/VolunteerSignup';
+import VolunteerPortal from './pages/VolunteerPortal';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -47,6 +48,7 @@ const AuthenticatedApp = () => {
       <Route path="/apply" element={<Apply />} />
       <Route path="/volunteer" element={<VolunteerSignup />} />
       <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/portal" element={<VolunteerPortal />} />
       <Route path="/community" element={<Community />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

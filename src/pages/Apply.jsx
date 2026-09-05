@@ -69,7 +69,7 @@ Return JSON with:
 
       const volunteer = await base44.entities.Volunteer.create({
         name: form.name,
-        email_id: form.email_id,
+        email_id: form.email_id.trim().toLowerCase(),
         phone: form.phone,
         availability: form.availability || undefined,
         skills: form.skills,
@@ -117,6 +117,9 @@ Return JSON with:
             </div>
           )}
 
+          <Button asChild className="w-full bg-teal-600 hover:bg-teal-700 mb-4">
+            <a href="/portal">Go to my volunteer portal</a>
+          </Button>
           <p className="text-xs text-gray-400">Recovery is possible • Hope is real • You are not alone</p>
         </motion.div>
       </div>
