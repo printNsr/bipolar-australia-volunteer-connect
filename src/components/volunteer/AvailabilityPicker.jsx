@@ -16,6 +16,14 @@ export const slotHours = (start, end) => {
   return Math.max(0, Math.round(((eh * 60 + em) - (sh * 60 + sm)) / 6) / 10);
 };
 
+export const formatAvailableTime = (slots) =>
+  DAYS.filter(d => slots.some(s => s.day === d.key))
+    .map(d => {
+      const s = slots.find(x => x.day === d.key);
+      return `${d.label} ${s.start_time}-${s.end_time}`;
+    })
+    .join(", ");
+
 export default function AvailabilityPicker({ slots, onChange }) {
   const find = (day) => slots.find(s => s.day === day);
 

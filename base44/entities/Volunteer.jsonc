@@ -76,6 +76,10 @@
         ]
       }
     },
+    "available_time": {
+      "type": "string",
+      "description": "Readable summary of available time, e.g. 'Mon 09:00-17:00, Sat 10:00-13:00'"
+    },
     "total_weekly_hours": {
       "type": "number",
       "description": "Sum of hours across all availability slots"

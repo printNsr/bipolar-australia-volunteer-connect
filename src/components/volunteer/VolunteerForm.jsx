@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import AvailabilityPicker, { slotHours } from "@/components/volunteer/AvailabilityPicker";
+import AvailabilityPicker, { slotHours, formatAvailableTime } from "@/components/volunteer/AvailabilityPicker";
 
 const SKILLS = [
   "Peer Support", "Web Development", "Data Analysis", "Graphic Design",
@@ -40,6 +40,7 @@ export default function VolunteerForm({ onSuccess }) {
         ...form,
         availability_slots: slots,
         available_days: slots.map(s => s.day),
+        available_time: formatAvailableTime(slots),
         total_weekly_hours: slots.reduce((t, s) => t + s.hours, 0),
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         status: "new",
