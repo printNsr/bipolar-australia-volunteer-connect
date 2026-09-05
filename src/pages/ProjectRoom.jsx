@@ -8,6 +8,7 @@ import CommentsPanel from "@/components/studio/CommentsPanel";
 import CollaboratorsPanel from "@/components/studio/CollaboratorsPanel";
 import ContributionTimeline from "@/components/studio/ContributionTimeline";
 import ProgressBar from "@/components/studio/ProgressBar";
+import PublishToExplore from "@/components/studio/PublishToExplore";
 import useMe from "@/hooks/useMe";
 import { STAGES, STAGE_LABELS, matchScore, sharedSkills } from "@/components/studio/creativeSkills";
 
@@ -108,7 +109,7 @@ export default function ProjectRoom() {
     setProject(await base44.entities.ArtProject.update(project.id, { stage: next }));
   };
 
-  const publish = async () => {
+  const publish = async (landmarkId) => {
     setBusy(true);
     const el = document.querySelector("canvas");
     let preview_url = project.preview_url;
@@ -119,13 +120,23 @@ export default function ProjectRoom() {
         preview_url = (await base44.integrations.Core.UploadFile({ file })).file_url;
       }
     }
+    await base44.entities.Creation.create({
+      title: project.title,
+      landmark: landmarkId,
+      creator_name: project.creator_name,
+      type: "artwork",
+      description: project.story,
+      image_url: preview_url,
+      project_id: project.id
+    });
     setProject(await base44.entities.ArtProject.update(project.id, {
       stage: "published",
       preview_url,
       published_at: new Date().toISOString(),
-      reach_count: project.reach_count || Math.round(180 + Math.random() * 420)
+      reach_count: project.reach_count || Math.round(180 + Math.random() * 420),
+      explore_landmark: landmarkId
     }));
-    await logContribution("published the finished artwork", mySkills[0] || "Storytelling");
+    await logContribution("published the finished artwork to Explore", mySkills[0] || "Storytelling");
     await load();
     setBusy(false);
   };
@@ -170,12 +181,15 @@ export default function ProjectRoom() {
               </>
             )}
             {canEdit && project.stage !== "published" && (
-              <div className="flex flex-wrap gap-3">
+              <div className="space-y-4">
                 <button onClick={advance} className="ba-btn-secondary">Move to next stage</button>
-                <button onClick={publish} disabled={busy} className="ba-btn-primary disabled:opacity-40">
-                  {busy ? "Publishing…" : "Publish artwork"}
-                </button>
+                <PublishToExplore busy={busy} onPublish={publish} />
               </div>
+            )}
+            {project.stage === "published" && project.explore_landmark && (
+              <Link to={`/explore?landmark=${project.explore_landmark}`} className="ba-btn-primary">
+                View on Explore
+              </Link>
             )}
           </div>
         </div>

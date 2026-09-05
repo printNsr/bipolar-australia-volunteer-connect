@@ -85,6 +85,10 @@
     "published_at": {
       "type": "string",
       "format": "date-time"
+    },
+    "explore_landmark": {
+      "type": "string",
+      "description": "Explore landmark where this artwork was published"
     }
   },
   "required": [

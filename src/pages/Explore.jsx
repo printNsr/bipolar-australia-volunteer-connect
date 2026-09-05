@@ -10,9 +10,12 @@ import { LANDMARKS, SAMPLE_CREATIONS } from "@/components/explore/landmarks";
 
 export default function Explore() {
   const [creations, setCreations] = useState([]);
-  const [selectedId, setSelectedId] = useState(LANDMARKS[0].id);
+  const requestedLandmark = new URLSearchParams(window.location.search).get("landmark");
+  const [selectedId, setSelectedId] = useState(
+    LANDMARKS.some((landmark) => landmark.id === requestedLandmark) ? requestedLandmark : LANDMARKS[0].id
+  );
   const [adding, setAdding] = useState(false);
-  const [cardOpen, setCardOpen] = useState(false);
+  const [cardOpen, setCardOpen] = useState(Boolean(requestedLandmark));
 
   const load = async () => {
     const list = await base44.entities.Creation.list("-created_date");
