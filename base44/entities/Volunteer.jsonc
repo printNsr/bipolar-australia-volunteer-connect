@@ -38,6 +38,52 @@
         ]
       }
     },
+    "availability_slots": {
+      "type": "array",
+      "description": "Exact availability per day, used for matching volunteers to job roles",
+      "items": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "enum": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+              "sunday"
+            ]
+          },
+          "start_time": {
+            "type": "string",
+            "description": "24-hour start time, HH:MM"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "24-hour end time, HH:MM"
+          },
+          "hours": {
+            "type": "number",
+            "description": "Hours available in this slot"
+          }
+        },
+        "required": [
+          "day",
+          "start_time",
+          "end_time"
+        ]
+      }
+    },
+    "total_weekly_hours": {
+      "type": "number",
+      "description": "Sum of hours across all availability slots"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone the availability times refer to"
+    },
     "available_from": {
       "type": "string",
       "description": "Preferred start time (HH:MM)"
