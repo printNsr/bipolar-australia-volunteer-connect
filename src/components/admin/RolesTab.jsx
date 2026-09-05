@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-const EMPTY = { title: "", description: "", hours_required: 2, status: "open" };
+const EMPTY = { title: "", description: "", hours_required: 2, timings: "", status: "open" };
 
 export default function RolesTab({ roles, applications, onRefresh }) {
   const [showForm, setShowForm] = useState(false);
@@ -36,6 +36,10 @@ export default function RolesTab({ roles, applications, onRefresh }) {
             <label className="text-xs font-medium text-gray-600 mb-1 block">Description</label>
             <Textarea value={form.description} onChange={e => set("description", e.target.value)} rows={2} />
           </div>
+          <div>
+            <label className="text-xs font-medium text-gray-600 mb-1 block">Timings</label>
+            <Input value={form.timings} onChange={e => set("timings", e.target.value)} placeholder="e.g. Thursday 9:00 am to 12:00 pm, or Flexible" />
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-xs font-medium text-gray-600 mb-1 block">Hours per week</label>
@@ -65,6 +69,7 @@ export default function RolesTab({ roles, applications, onRefresh }) {
               </span>
             </div>
             <p className="text-sm text-gray-600 mb-3">{role.description}</p>
+            <p className="text-xs text-gray-500 mb-2">🗓 {role.timings || "Flexible — as per your availability"}</p>
             <div className="flex gap-3 text-xs text-gray-500">
               <span>⏱ {role.hours_required || "flexible"}h/week</span>
               <span>👥 {applications.filter(a => a.role_id === role.id).length} applicants</span>

@@ -18,6 +18,10 @@
       "type": "number",
       "description": "Hours required per week"
     },
+    "timings": {
+      "type": "string",
+      "description": "When the volunteering happens, e.g. 'Thursday 9:00 am to 12:00 pm' or 'Flexible \u2014 as per volunteer availability'"
+    },
     "status": {
       "type": "string",
       "enum": [
