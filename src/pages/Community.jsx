@@ -20,7 +20,7 @@ export default function Community() {
       </nav>
       <main>
         <section className="relative overflow-hidden bg-teal-950 px-4 py-16 sm:px-6 lg:py-24">
-          <Image src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/77dc039d1_heropage.png" alt="Volunteers connecting in Sydney" className="absolute inset-0 h-full w-full opacity-30" fittingType="fill" focalPointX={0.72} focalPointY={0.5} />
+          <Image src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/32e41f0ab_generated_image.png" alt="Community support group meeting in a bright community centre" className="absolute inset-0 h-full w-full opacity-40" fittingType="fill" focalPointX={0.72} focalPointY={0.5} />
           <div className="absolute inset-0 bg-teal-950/60" />
           <div className="relative z-10 mx-auto max-w-3xl text-center text-white">
             <p className="text-xs font-bold uppercase tracking-wider text-teal-200">Bipolar Australia</p>
