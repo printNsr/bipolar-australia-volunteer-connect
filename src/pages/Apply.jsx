@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, CheckCircle, Loader2, ChevronRight, ChevronLeft } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
+import MatchResults from "@/components/apply/MatchResults";
 
 const SKILLS_OPTIONS = [
   "Web Development", "Data Analysis", "Graphic Design", "Social Media",
@@ -20,7 +21,7 @@ export default function Apply() {
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [matchResult, setMatchResult] = useState(null);
+  const [matches, setMatches] = useState([]);
   const [form, setForm] = useState({
     name: "", email_id: "", phone: "", skills: [],
     preferred_area: "", hours_required: "", availability: ""
@@ -32,40 +33,14 @@ export default function Apply() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const roles = await base44.entities.JobRole.filter({ status: "open" });
-      const rolesText = roles.map(r => `id: ${r.id}\nTitle: ${r.title}\nDescription: ${r.description || ""}\nSkills: ${(r.required_skills || []).join(", ")}\nHours/week: ${r.hours_required || "flexible"}`).join("\n\n");
-
-      const prompt = `You are a volunteer coordinator for Bipolar Australia, a mental health NGO.
-
-A volunteer has applied with the following profile:
-- Name: ${form.name}
-- Skills: ${form.skills.join(", ")}
-- Areas of interest: ${form.preferred_area}
-- Availability: ${form.hours_required} hours/week, ${form.availability}
-
-Open roles at Bipolar Australia:
-${rolesText || "No open roles listed yet."}
-
-Pick the BEST matching role and explain why in 2-3 warm, encouraging sentences addressed to the volunteer.
-
-Return JSON with:
-- role_id: string (the id of the matched role, or empty string if no roles available)
-- matched_role: string (role title, or "General Volunteering" if none available)
-- score: number 1-10
-- reasoning: string`;
-
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            role_id: { type: "string" },
-            matched_role: { type: "string" },
-            score: { type: "number" },
-            reasoning: { type: "string" }
-          }
-        }
+      const { data } = await base44.functions.invoke("semanticMatchRoles", {
+        skills: form.skills,
+        preferred_area: form.preferred_area,
+        availability: form.availability,
+        hours_required: form.hours_required
       });
+      const results = data?.matches || [];
+      const best = results[0];
 
       const volunteer = await base44.entities.Volunteer.create({
         name: form.name,
@@ -78,14 +53,14 @@ Return JSON with:
 
       await base44.entities.Application.create({
         volunteer_id: volunteer.id,
-        role_id: result.role_id || undefined,
+        role_id: best?.role_id || undefined,
         status: "applied",
         preferred_area: form.preferred_area,
         applied_date: new Date().toISOString().slice(0, 10),
         hours_required: parseFloat(form.hours_required) || 0
       });
 
-      setMatchResult(result);
+      setMatches(results);
       setSubmitted(true);
     } catch (e) {
       console.error(e);
@@ -103,19 +78,7 @@ Return JSON with:
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Application Received!</h2>
           <p className="text-gray-500 mb-6">Thank you, {form.name}. Our team will be in touch soon.</p>
 
-          {matchResult && (
-            <div className="bg-teal-50 border border-teal-100 rounded-xl p-5 text-left mb-6">
-              <p className="text-xs font-semibold text-teal-600 uppercase tracking-wide mb-1">AI Match Suggestion</p>
-              <p className="text-lg font-bold text-gray-900 mb-2">🎯 {matchResult.matched_role}</p>
-              <p className="text-sm text-gray-600">{matchResult.reasoning}</p>
-              <div className="mt-3 flex items-center gap-2">
-                <div className="flex-1 bg-teal-100 rounded-full h-2">
-                  <div className="bg-teal-500 rounded-full h-2" style={{ width: `${(matchResult.score / 10) * 100}%` }} />
-                </div>
-                <span className="text-xs text-teal-700 font-medium">{matchResult.score}/10 match</span>
-              </div>
-            </div>
-          )}
+          <MatchResults matches={matches} />
 
           <Button asChild className="w-full bg-teal-600 hover:bg-teal-700 mb-4">
             <a href="/portal">Go to my volunteer portal</a>
