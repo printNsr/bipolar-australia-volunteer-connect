@@ -2,7 +2,8 @@ import HomeNav from "@/components/home/HomeNav";
 import Hero from "@/components/home/Hero";
 import ImpactEditorial from "@/components/home/ImpactEditorial";
 import WhyBipolarAustralia from "@/components/home/WhyBipolarAustralia";
-import Partnerships from "@/components/home/Partnerships";
+import VolunteerImpact from "@/components/home/VolunteerImpact";
+import OurPartners from "@/components/home/OurPartners";
 import FinalCTA from "@/components/home/FinalCTA";
 
 export default function Home() {
@@ -12,7 +13,8 @@ export default function Home() {
       <Hero />
       <ImpactEditorial />
       <WhyBipolarAustralia />
-      <Partnerships />
+      <VolunteerImpact />
+      <OurPartners />
       <FinalCTA />
     </div>
   );

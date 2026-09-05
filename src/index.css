@@ -15,6 +15,10 @@
   .ba-btn-secondary{display:inline-flex;align-items:center;background:var(--brand-surface);color:var(--brand-text);font-family:var(--brand-font-body);font-weight:var(--brand-font-weight-medium);font-size:15px;line-height:1;border:1px solid var(--brand-border);padding:12px 22px;border-radius:var(--brand-radius-full);white-space:nowrap;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .12s ease}
   .ba-btn-secondary:hover{background:var(--brand-background);border-color:var(--brand-muted-foreground)}
   .ba-btn-secondary:active{transform:translateY(1px)}
+  .ba-marquee{overflow:hidden;mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent)}
+  .ba-marquee-track{display:flex;align-items:center;width:max-content;animation:ba-scroll 60s linear infinite}
+  .ba-marquee:hover .ba-marquee-track{animation-play-state:paused}
+  @keyframes ba-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   .ba-status-pill{display:inline-flex;align-items:center;background:var(--brand-muted);color:var(--brand-primary);font-family:var(--brand-font-body);font-weight:var(--brand-font-weight-medium);font-size:13px;line-height:1;padding:8px 16px;border-radius:var(--brand-radius-full);white-space:nowrap}
 }
 
