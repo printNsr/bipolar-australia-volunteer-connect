@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Heart, Users, ArrowRight, Star, Clock, Award } from "lucide-react";
+import { ArrowRight, BadgeCheck, ClipboardCheck, FileText, HandHeart, ListChecks, Sparkles } from "lucide-react";
 import { Image } from "@/components/ui/image";
 
 const STATS = [
@@ -11,12 +11,12 @@ const STATS = [
 
 export default function Home() {
   const steps = [
-    { icon: Users, title: "Apply", desc: "Fill in a short form about your skills, interests and availability.", color: "bg-blue-50 text-blue-600" },
-    { icon: Star, title: "AI Matching", desc: "Our AI reads your profile and suggests the best-fit role for you.", color: "bg-teal-50 text-teal-700" },
-    { icon: Clock, title: "Onboarding", desc: "Admin reviews and accepts you. A guided onboarding gets you started.", color: "bg-purple-50 text-purple-600" },
-    { icon: Heart, title: "Coordinate", desc: "Your tasks, responsibilities and next steps in one place.", color: "bg-red-50 text-red-600" },
-    { icon: Award, title: "Recognition", desc: "Log hours and receive a certificate recognising your contribution.", color: "bg-amber-50 text-amber-600" },
-    { icon: ArrowRight, title: "Retain", desc: "Stay engaged with updates, events and your personal impact story.", color: "bg-green-50 text-green-600" }
+    { icon: FileText, title: "Apply", desc: "Fill in a short form about your skills, interests and availability.", color: "bg-blue-50 text-blue-600" },
+    { icon: Sparkles, title: "AI Matching", desc: "Our AI reads your profile and suggests the best-fit role for you.", color: "bg-teal-50 text-teal-700" },
+    { icon: ListChecks, title: "Onboarding", desc: "Admin reviews and accepts you. A guided onboarding gets you started.", color: "bg-purple-50 text-purple-600" },
+    { icon: ClipboardCheck, title: "Coordinate", desc: "Your tasks, responsibilities and next steps in one place.", color: "bg-red-50 text-red-600" },
+    { icon: BadgeCheck, title: "Recognition", desc: "Log hours and receive a certificate recognising your contribution.", color: "bg-amber-50 text-amber-600" },
+    { icon: HandHeart, title: "Retain", desc: "Stay engaged with updates, events and your personal impact story.", color: "bg-green-50 text-green-600" }
   ];
 
   return (
