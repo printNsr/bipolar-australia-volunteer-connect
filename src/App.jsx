@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Apply from './pages/Apply';
 import AdminDashboard from './pages/AdminDashboard';
+import Explore from './pages/Explore';
 import VolunteerSignup from './pages/VolunteerSignup';
 import VolunteerPortal from './pages/VolunteerPortal';
 import Login from './pages/Login';
@@ -48,6 +49,7 @@ const AuthenticatedApp = () => {
       <Route path="/apply" element={<Apply />} />
       <Route path="/volunteer" element={<VolunteerSignup />} />
       <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/explore" element={<Explore />} />
       <Route path="/portal" element={<VolunteerPortal />} />
       <Route path="/community" element={<Community />} />
       <Route path="/login" element={<Login />} />
