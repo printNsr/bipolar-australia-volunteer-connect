@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { Heart, Users, ArrowRight, Star, Clock, Award } from "lucide-react";
 
 const STATS = [
-  { value: "568,000+", label: "Australians with bipolar disorder" },
-  { value: "1 in 50", label: "people affected" },
-  { value: "13 years", label: "average delay to diagnosis" },
-];
+{ value: "568,000+", label: "Australians with bipolar disorder" },
+{ value: "1 in 50", label: "people affected" },
+{ value: "13 years", label: "average delay to diagnosis" }];
+
 
 export default function Home() {
   return (
@@ -31,7 +31,7 @@ export default function Home() {
       <div className="bg-gradient-to-br from-teal-700 via-teal-600 to-green-600 text-white">
         <div className="max-w-5xl mx-auto px-6 py-20">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-teal-200 text-sm font-medium tracking-wide uppercase mb-4">Volunteer with us</p>
+            <p className="text-teal-200 text-sm font-medium tracking-wide uppercase mb-4">SVolunteer with uS</p>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 max-w-2xl">
               Help us support people living with bipolar disorder
             </h1>
@@ -53,12 +53,12 @@ export default function Home() {
       {/* Stats */}
       <div className="bg-gray-900 text-white px-6 py-10">
         <div className="max-w-5xl mx-auto grid grid-cols-3 gap-8 text-center">
-          {STATS.map((s, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+          {STATS.map((s, i) =>
+          <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
               <p className="text-3xl font-bold text-teal-400">{s.value}</p>
               <p className="text-sm text-gray-400 mt-1">{s.label}</p>
             </motion.div>
-          ))}
+          )}
         </div>
       </div>
 
@@ -68,22 +68,22 @@ export default function Home() {
         <p className="text-gray-500 text-center mb-10">A simple, AI-powered process from application to impact</p>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {[
-            { icon: Users, title: "Apply", desc: "Fill in a short form about your skills, interests and availability.", color: "bg-blue-50 text-blue-600" },
-            { icon: Star, title: "AI Matching", desc: "Our AI reads your profile and suggests the best-fit role for you.", color: "bg-teal-50 text-teal-600" },
-            { icon: Clock, title: "Onboarding", desc: "Admin reviews and accepts you. A guided onboarding gets you started.", color: "bg-purple-50 text-purple-600" },
-            { icon: Heart, title: "Coordinate", desc: "Your tasks, responsibilities and next steps in one place.", color: "bg-red-50 text-red-600" },
-            { icon: Award, title: "Recognition", desc: "Log hours and receive a certificate recognising your contribution.", color: "bg-yellow-50 text-yellow-600" },
-            { icon: ArrowRight, title: "Retain", desc: "Stay engaged with updates, events and your personal impact story.", color: "bg-green-50 text-green-600" },
-          ].map((item, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-              className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
+          { icon: Users, title: "Apply", desc: "Fill in a short form about your skills, interests and availability.", color: "bg-blue-50 text-blue-600" },
+          { icon: Star, title: "AI Matching", desc: "Our AI reads your profile and suggests the best-fit role for you.", color: "bg-teal-50 text-teal-600" },
+          { icon: Clock, title: "Onboarding", desc: "Admin reviews and accepts you. A guided onboarding gets you started.", color: "bg-purple-50 text-purple-600" },
+          { icon: Heart, title: "Coordinate", desc: "Your tasks, responsibilities and next steps in one place.", color: "bg-red-50 text-red-600" },
+          { icon: Award, title: "Recognition", desc: "Log hours and receive a certificate recognising your contribution.", color: "bg-yellow-50 text-yellow-600" },
+          { icon: ArrowRight, title: "Retain", desc: "Stay engaged with updates, events and your personal impact story.", color: "bg-green-50 text-green-600" }].
+          map((item, i) =>
+          <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
+          className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${item.color}`}>
                 <item.icon className="w-5 h-5" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
               <p className="text-sm text-gray-500">{item.desc}</p>
             </motion.div>
-          ))}
+          )}
         </div>
       </div>
 
@@ -98,6 +98,6 @@ export default function Home() {
           <p className="text-xs text-gray-400 mt-6">恢复是可能的 • recovery is possible • الانتعاش هو ممكن • il recupero è possibile</p>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
