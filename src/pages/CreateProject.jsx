@@ -5,11 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import StudioNav from "@/components/studio/StudioNav";
 import SkillPicker from "@/components/studio/SkillPicker";
+import { LANDMARKS } from "@/components/explore/landmarks";
 import useMe from "@/hooks/useMe";
 
 export default function CreateProject() {
   const navigate = useNavigate();
   const { me } = useMe();
+  const landmarkId = new URLSearchParams(window.location.search).get("landmark");
+  const landmark = LANDMARKS.find((item) => item.id === landmarkId);
   const [form, setForm] = useState({ title: "", story: "", skills_wanted: [] });
   const [saving, setSaving] = useState(false);
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
@@ -22,6 +25,7 @@ export default function CreateProject() {
       skills_wanted: form.skills_wanted,
       creator_name: me?.full_name || "Anonymous creator",
       creator_email: me?.email,
+      explore_landmark: landmark?.id,
       stage: "idea",
       collaborators: [],
       canvas: { strokes: [], items: [] }
@@ -43,6 +47,11 @@ export default function CreateProject() {
       <main className="mx-auto max-w-3xl px-6 py-16">
         <p className="text-xs uppercase tracking-[0.18em] text-secondary">New artwork</p>
         <h1 className="mt-4 text-5xl">Start something and invite help</h1>
+        {landmark && (
+          <p className="mt-5 text-sm text-muted-foreground">
+            Creating for <span className="font-medium text-primary">{landmark.name}</span> on Explore
+          </p>
+        )}
 
         <div className="mt-12 space-y-10">
           <div>
