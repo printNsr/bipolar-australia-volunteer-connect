@@ -88,7 +88,7 @@ export default function Home() {
           <h2 className="font-impact-heading text-3xl font-extrabold tracking-tight min-[520px]:text-xl lg:text-3xl">Ready to make a difference?</h2>
           <p className="mt-3 text-sm text-slate-700">Even 1-2 hours a fortnight can change lives. Let's find the perfect role for you.</p>
           <Link to="/apply" className="mt-7 inline-flex items-center gap-2 rounded-md bg-teal-800 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-teal-900">Start Your Application <ArrowRight className="h-4 w-4" /></Link>
-          <p className="mt-7 text-xs text-slate-500">恢复是可能的 • recovery is possible • الانتعاش هو ممكن • il recupero è possibile</p>
+          <p className="mt-7 text-xs text-slate-500">Recovery is possible • Hope is real • Support is available • You are not alone</p>
         </div>
       </section>
     </div>
