@@ -43,7 +43,7 @@ export default function Home() {
             <h1 className="font-impact-heading text-3xl font-extrabold leading-[0.98] tracking-tight text-slate-950 min-[520px]:text-2xl lg:text-5xl">Help us support people living with bipolar disorder</h1>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-slate-700 min-[520px]:mt-3 min-[520px]:text-xs lg:mt-5 lg:text-sm">Your skills and time can make a real difference. We'll match you to meaningful work that fits your life and helps you grow.</p>
             <div className="mt-6 flex flex-wrap items-center gap-5 min-[520px]:mt-4 min-[520px]:gap-3 lg:mt-6 lg:gap-5">
-              <Link to="/apply" className="inline-flex items-center gap-2 rounded-md bg-teal-800 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-teal-900 min-[520px]:px-3 min-[520px]:py-2 min-[520px]:text-xs lg:px-5 lg:py-3 lg:text-sm">Apply Now <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/volunteer" className="inline-flex items-center gap-2 rounded-md bg-teal-800 px-5 py-3 text-sm font-bold text-white shadow-md hover:bg-teal-900 min-[520px]:px-3 min-[520px]:py-2 min-[520px]:text-xs lg:px-5 lg:py-3 lg:text-sm">Volunteer Now <ArrowRight className="h-4 w-4" /></Link>
               <Link to="/admin" className="text-sm font-semibold text-slate-700 hover:text-teal-800 min-[520px]:text-xs lg:text-sm">Admin Dashboard</Link>
             </div>
           </motion.div>
@@ -87,7 +87,7 @@ export default function Home() {
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-impact-heading text-3xl font-extrabold tracking-tight min-[520px]:text-xl lg:text-3xl">Ready to make a difference?</h2>
           <p className="mt-3 text-sm text-slate-700">Even 1-2 hours a fortnight can change lives. Let's find the perfect role for you.</p>
-          <Link to="/apply" className="mt-7 inline-flex items-center gap-2 rounded-md bg-teal-800 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-teal-900">Start Your Application <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/volunteer" className="mt-7 inline-flex items-center gap-2 rounded-md bg-teal-800 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-teal-900">Volunteer Now <ArrowRight className="h-4 w-4" /></Link>
           <p className="mt-7 text-xs text-slate-500">Recovery is possible • Hope is real • Support is available • You are not alone</p>
         </div>
       </section>
