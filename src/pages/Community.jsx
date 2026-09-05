@@ -26,7 +26,7 @@ export default function Community() {
             <p className="text-xs font-bold uppercase tracking-wider text-teal-200">Bipolar Australia</p>
             <h1 className="mt-4 font-impact-heading text-4xl font-extrabold tracking-tight sm:text-5xl">A community built on understanding</h1>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-teal-50">We believe connection, shared experience and meaningful contribution can help people feel supported and hopeful.</p>
-            <a href="#find-your-place" className="mt-8 inline-flex items-center gap-2 rounded-md bg-white px-6 py-3 text-sm font-bold text-teal-900 shadow-md hover:bg-teal-50">Explore <ArrowRight className="h-4 w-4" /></a>
+            <Link to="/explore" className="mt-8 inline-flex items-center gap-2 rounded-md bg-white px-6 py-3 text-sm font-bold text-teal-900 shadow-md hover:bg-teal-50">Explore <ArrowRight className="h-4 w-4" /></Link>
           </div>
         </section>
         <section id="find-your-place" className="px-4 py-16 sm:px-6 lg:py-20">
