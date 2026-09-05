@@ -1,12 +1,13 @@
-// Positions are percentages on the isometric ground plane
+// x / z are world coordinates on the 3D map plane, labelY is the label height
 export const LANDMARKS = [
-  { id: "opera_house", name: "Sydney Opera House", blurb: "Where our biggest awareness events are held.", x: 62, y: 30, height: 70, color: "bg-white", accent: "bg-slate-200" },
-  { id: "harbour_bridge", name: "Sydney Harbour Bridge", blurb: "A symbol of connection across the community.", x: 40, y: 20, height: 60, color: "bg-slate-400", accent: "bg-slate-500" },
-  { id: "sydney_tower", name: "Sydney Tower Eye", blurb: "Stories shared from the top of the city.", x: 30, y: 52, height: 130, color: "bg-amber-200", accent: "bg-amber-300" },
-  { id: "qvb", name: "Queen Victoria Building", blurb: "Creative workshops and pop-up exhibitions.", x: 22, y: 72, height: 55, color: "bg-orange-200", accent: "bg-orange-300" },
-  { id: "luna_park", name: "Luna Park", blurb: "Joyful moments captured by our volunteers.", x: 52, y: 12, height: 50, color: "bg-rose-200", accent: "bg-rose-300" },
-  { id: "bondi", name: "Bondi Pavilion", blurb: "Coastal walks, peer meet-ups and murals.", x: 80, y: 66, height: 45, color: "bg-cyan-200", accent: "bg-cyan-300" },
-  { id: "circular_quay", name: "Circular Quay", blurb: "Where conversations start and journeys begin.", x: 52, y: 46, height: 40, color: "bg-teal-200", accent: "bg-teal-300" }
+  { id: "harbour_bridge", name: "Sydney Harbour Bridge", blurb: "A symbol of connection across the community.", x: -30, z: -50, labelY: 26 },
+  { id: "opera_house", name: "Sydney Opera House", blurb: "Where our biggest awareness events are held.", x: 24, z: -44, labelY: 16 },
+  { id: "circular_quay", name: "Circular Quay", blurb: "Where conversations start and journeys begin.", x: 2, z: -26, labelY: 10 },
+  { id: "luna_park", name: "Luna Park", blurb: "Joyful moments captured by our volunteers.", x: -28, z: -74, labelY: 20 },
+  { id: "sydney_tower", name: "Sydney Tower Eye", blurb: "Stories shared from the top of the city.", x: -8, z: 8, labelY: 60 },
+  { id: "qvb", name: "Queen Victoria Building", blurb: "Creative workshops and pop-up exhibitions.", x: -30, z: 30, labelY: 18 },
+  { id: "st_marys", name: "St Mary's Cathedral", blurb: "Quiet reflection in the heart of the city.", x: 32, z: 28, labelY: 24 },
+  { id: "bondi", name: "Bondi Pavilion", blurb: "Coastal walks, peer meet-ups and murals.", x: 74, z: 62, labelY: 12 }
 ];
 
 export const SAMPLE_CREATIONS = [
