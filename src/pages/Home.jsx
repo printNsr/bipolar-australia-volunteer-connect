@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, Users, ArrowRight, Star, Clock, Award } from "lucide-react";
+import { Image } from "@/components/ui/image";
 
 const STATS = [
 { value: "568,000+", label: "Australians with bipolar disorder" },
@@ -28,14 +29,23 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <div className="bg-gradient-to-br from-teal-700 via-teal-600 to-green-600 text-white">
-        <div className="max-w-5xl mx-auto px-6 py-20">
+      <div className="relative overflow-hidden text-white">
+        <Image
+          src="https://media.base44.com/images/public/6a9b99b284f97700452498e5/77dc039d1_heropage.png"
+          alt="Volunteers connecting in Sydney"
+          className="absolute inset-0 h-full w-full"
+          fittingType="fill"
+          focalPointX={0.7}
+          focalPointY={0.5}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-teal-950/95 via-teal-800/75 to-teal-700/10" />
+        <div className="relative max-w-5xl mx-auto px-6 py-20">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-teal-200 text-sm font-medium tracking-wide uppercase mb-4">SVolunteer with uS</p>
+            <p className="text-teal-100 text-sm font-medium tracking-wide uppercase mb-4">Volunteer with us</p>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 max-w-2xl">
               Help us support people living with bipolar disorder
             </h1>
-            <p className="text-teal-100 text-lg mb-8 max-w-xl">
+            <p className="text-teal-50 text-lg mb-8 max-w-xl">
               Your skills and time can make a real difference. We'll match you to meaningful work that fits your life and helps you grow.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
