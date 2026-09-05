@@ -14,7 +14,6 @@ export default function FinalCTA() {
             Volunteer Now
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
           </Link>
-          <Link to="/admin" className="text-sm text-muted-foreground hover:text-primary">Admin dashboard</Link>
         </div>
         <p className="mt-16 border-t border-border pt-8 text-sm text-muted-foreground">
           Recovery is possible · Hope is real · Support is available · You are not alone
