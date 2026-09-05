@@ -38,7 +38,7 @@ export default function Home() {
           focalPointX={0.7}
           focalPointY={0.5}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-950/95 via-teal-800/75 to-teal-700/10" />
+        <div className="absolute inset-0 bg-teal-950/70" />
         <div className="relative max-w-5xl mx-auto px-6 py-20">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <p className="text-teal-100 text-sm font-medium tracking-wide uppercase mb-4">Volunteer with us</p>
